@@ -1,3 +1,4 @@
+# fintech
 echo "# fintech" >> README.md
 git init
 git add README.md
