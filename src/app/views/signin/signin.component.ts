@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Signin } from 'src/app/models/signin';
 
 @Component({
   selector: 'app-signin',
@@ -14,7 +13,7 @@ export class SigninComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  singin(data: Signin) {
+  singin(data: any) {
     console.log('signin', data);
   }
 }
