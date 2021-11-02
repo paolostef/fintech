@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { RegisterComponent } from './views/register/register.component';
 import { LoginComponent } from './views/login/login.component';
+import { CardListComponent } from './views/card-list/card-list.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LoginComponent } from './views/login/login.component';
     SigninComponent,
     RegisterComponent,
     LoginComponent,
+    CardListComponent,
   ],
   imports: [
     BrowserModule,

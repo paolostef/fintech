@@ -1,0 +1,46 @@
+<mat-list appearance="fill">
+  <div mat-subheader>Carte</div>
+  <ng-container *ngFor="let card of cards">
+    <mat-list-item appearance="fill">
+      <!-- Descrizione carta-->
+      <mat-icon matListIcon>credit_card</mat-icon>
+      <div matLine>{{ card.number }}</div>
+      <div matLine>
+        <strong>{{ card.amount | currency: "EUR":"symbol" }}</strong> -
+        {{ card.type }}
+      </div>
+
+      <!--Vedi-->
+      <button mat-icon-button [matMenuTriggerFor]="viewItemMenu">
+        <mat-icon>description</mat-icon>
+      </button>
+      <mat-menu #viewItemMenu="matMenu">
+        <button mat-menu-item (click)="viewItem(card)">
+          <mat-icon>description</mat-icon>
+          <span>Vedi movimenti</span>
+        </button>
+      </mat-menu>
+
+      <!--Rimuovi-->
+      <button mat-icon-button [matMenuTriggerFor]="removeItemMenu">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <mat-menu #removeItemMenu="matMenu">
+        <button mat-menu-item (click)="removeItem(card)">
+          <mat-icon>delete</mat-icon>
+          <span>Rimuovi</span>
+        </button>
+      </mat-menu>
+    </mat-list-item>
+  </ng-container>
+</mat-list>
+
+<button
+  class="width100"
+  mat-raised-button
+  color="secondary"
+  type="button"
+  (click)="addItem()"
+>
+  Aggiungi
+</button>
