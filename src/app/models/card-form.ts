@@ -1,5 +1,7 @@
+import { CardType } from "./card";
+
 export interface CardForm {
-  type: string;
+  type: CardType;
   name: string;
   surname: string;
   cardnumber: string;

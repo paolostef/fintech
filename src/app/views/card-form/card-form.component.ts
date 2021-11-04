@@ -1,14 +1,11 @@
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
-  Input,
-  OnInit,
+  EventEmitter, OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
-import { Card } from 'src/app/models/card';
+import { NgForm } from '@angular/forms';
 import { CardForm } from 'src/app/models/card-form';
 
 @Component({

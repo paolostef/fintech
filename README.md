@@ -22,4 +22,5 @@ ng add @angular/material
 
 ##TODO
 https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-cards/
-da titolo CardsComponent
+manca da:
+Il tasto “Aggiungi” dovrà aprire il Drawer, mostrando quindi il componente CardFormComponent.

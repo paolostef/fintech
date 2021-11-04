@@ -1,4 +1,4 @@
-type CardType = "visa" | "mastercard"
+export type CardType = "visa" | "mastercard"
 
 export interface Card {
   _id: string;
