@@ -1,0 +1,146 @@
+<mat-card class="card50">
+  <form #f="ngForm" (ngSubmit)="save(f.value)">
+    <div class="container">
+      <!-- Tipo di carta -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Tipo di carta</mat-label>
+            <mat-select [ngModel] name="type" required #typeRef="ngModel">
+              <mat-option *ngFor="let type of cardTypes" [value]="type.code">
+                {{ type.text }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="typeRef.dirty && typeRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Nome e Cognome -->
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Nome</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="name"
+              #nameRef="ngModel"
+              required
+              matInput
+            />
+            <mat-error *ngIf="nameRef.dirty && nameRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Cognome</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="surname"
+              #surnameRef="ngModel"
+              required
+              matInput
+            />
+            <mat-error *ngIf="surnameRef.dirty && surnameRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Num Carta-->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>N° Carta</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="cardnumber"
+              #cardnumberRef="ngModel"
+              required
+              matInput
+              minlength="16"
+              maxlength="16"
+            />
+            <mat-error
+              *ngIf="cardnumberRef.dirty && cardnumberRef.errors?.required"
+            >
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="cardnumberRef.dirty && (cardnumberRef.errors?.minlength || cardnumberRef.errors?.maxlength)"
+            >
+              Numero di lunghezza 16
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Num Carta-->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Codice di sicurezza</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="cardcode"
+              #cardcodeRef="ngModel"
+              required
+              matInput
+              minlength="3"
+              maxlength="3"
+            />
+            <mat-error
+              *ngIf="cardcodeRef.dirty && cardcodeRef.errors?.required"
+            >
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="cardcodeRef.dirty && (cardcodeRef.errors?.minlength || cardcodeRef.errors?.maxlength)"
+            >
+              Numero di lunghezza 3
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="row mybutton">
+        <div class="col">
+          <button
+            class="width100"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="f.invalid"
+          >
+            Aggiungi carta
+          </button>
+        </div>
+      </div>
+
+      <!--Annulla-->
+      <div class="row mybutton">
+        <div class="col">
+          <button
+            class="width100"
+            mat-stroked-button
+            color="warn"
+            type="button"
+            (click)="undo()"
+          >
+            Annulla
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>
