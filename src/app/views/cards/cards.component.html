@@ -1,12 +1,18 @@
 <mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened>
+  <mat-drawer-content>
     <app-card-list
       [cards]="cards"
-      (addMovement)="showAddCard = true"
+      (addMovement)="addMovement()"
       (removeMovement)="removeMovement($event)"
+      (viewMovement)="viewMovement($event)"
     ></app-card-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <app-card-form  *ngIf="showAddCard" (add)="addCard($event)" (cancel)="showAddCard = false"></app-card-form>
   </mat-drawer-content>
+  <mat-drawer mode="side" opened="false" position='end'>
+    <app-card-form
+      #insertCard
+      class="card-style"
+      (add)="addCard($event)"
+      (cancel)="closeAddMovement()"
+    ></app-card-form>
+  </mat-drawer>
 </mat-drawer-container>

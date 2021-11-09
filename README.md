@@ -21,6 +21,4 @@ Installa angular material \
 ng add @angular/material
 
 ##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-cards/
-manca da:
-Il tasto “Aggiungi” dovrà aprire il Drawer, mostrando quindi il componente CardFormComponent.
+https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-movements/

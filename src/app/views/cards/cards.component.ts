@@ -1,7 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDrawerContent } from '@angular/material/sidenav';
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { TransitionCheckState } from '@angular/material/checkbox';
+import { MatDrawer, MatDrawerContent } from '@angular/material/sidenav';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from 'src/app/models/card';
 import { CardForm } from 'src/app/models/card-form';
+import { CardFormComponent } from '../card-form/card-form.component';
 
 @Component({
   selector: 'app-cards',
@@ -9,8 +18,8 @@ import { CardForm } from 'src/app/models/card-form';
   styleUrls: ['./cards.component.scss'],
 })
 export class CardsComponent implements OnInit {
-
-  showAddCard = false;
+  @ViewChild(MatDrawer, { static: true }) matDrawer?: MatDrawer;
+  @ViewChild('insertCard')  cardForm?: CardFormComponent;
 
   cards: Card[] = [
     {
@@ -39,7 +48,7 @@ export class CardsComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor(private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {}
 
@@ -53,15 +62,29 @@ export class CardsComponent implements OnInit {
       amount: 0,
     };
     this.cards = [...this.cards, card];
-    this.showAddCard = false;
+    this.closeAddMovement();
+    this._snackBar.open('Card aggiunta!', 'Ok');
   }
 
   removeMovement(id: string) {
     this.cards = this.cards.filter((x) => x._id != id);
+    this._snackBar.open('Card rimossa!', 'Ok');
   }
 
+  viewMovement(id: String) {
+    //TODO
+  }
 
   addMovement() {
-    this.showAddCard = true;
+    if (this.matDrawer) {
+      this.matDrawer.open();
+    }
+  }
+
+  closeAddMovement() {
+    if (this.matDrawer) {
+      this.cardForm?.cleanup();
+     this.matDrawer.close();
+    }
   }
 }
