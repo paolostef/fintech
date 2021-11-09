@@ -19,7 +19,7 @@ import { CardFormComponent } from '../card-form/card-form.component';
 })
 export class CardsComponent implements OnInit {
   @ViewChild(MatDrawer, { static: true }) matDrawer?: MatDrawer;
-  @ViewChild('insertCard')  cardForm?: CardFormComponent;
+  @ViewChild('insertCard') cardForm?: CardFormComponent;
 
   cards: Card[] = [
     {
@@ -84,7 +84,8 @@ export class CardsComponent implements OnInit {
   closeAddMovement() {
     if (this.matDrawer) {
       this.cardForm?.cleanup();
-     this.matDrawer.close();
+      // NB Il drawer si chiude dopo o perdo la referenza
+      this.matDrawer.close();
     }
   }
 }
