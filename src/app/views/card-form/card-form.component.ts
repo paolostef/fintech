@@ -48,5 +48,7 @@ export class CardFormComponent implements OnInit, AfterViewInit {
 
   public cleanup() {
     this.form.reset();
+    // Perché Angular Material si incasiva col flag this.form.submitted
+    this.form.resetForm();
   }
 }
