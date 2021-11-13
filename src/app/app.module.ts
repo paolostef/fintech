@@ -16,6 +16,10 @@ import { CardsComponent } from './views/cards/cards.component';
 import { MovementComponent } from './views/movement/movement.component';
 import { MovementsComponent } from './views/movements/movements.component';
 import { TruncatePipe } from './shared/pipes/truncate.pipe';
+import { TransferComponent } from './views/transfer/transfer.component';
+import { ContactsComponent } from './views/contacts/contacts.component';
+import { ContactListComponent } from './views/contact-list/contact-list.component';
+import { ContactFormComponent } from './views/contact-form/contact-form.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import { TruncatePipe } from './shared/pipes/truncate.pipe';
     CardsComponent,
     MovementComponent,
     MovementsComponent,
-    TruncatePipe
+    TruncatePipe,
+    TransferComponent,
+    ContactsComponent,
+    ContactListComponent,
+    ContactFormComponent
   ],
   imports: [
     BrowserModule,

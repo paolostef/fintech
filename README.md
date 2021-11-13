@@ -21,4 +21,5 @@ Installa angular material \
 ng add @angular/material
 
 ##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-movements/
+https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-transfer/
+a metà del ContactsComponent

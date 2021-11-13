@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Card } from 'src/app/models/card';
+import { Contact } from 'src/app/models/contact';
 import Movement from 'src/app/models/movement';
 
 @Injectable({
@@ -56,5 +57,24 @@ export class MockService {
       });
     }
     return movs;
+  }
+
+
+  getContacts() : Contact[] {
+    return [
+      {
+        _id: "Michele_Stieven",
+        name: "Michele",
+        surname: "Stieven",
+        iban: "1111 1111 1111 1111",
+      },
+
+      {
+        _id: "Fabio_Biondi",
+        name: "Fabio",
+        surname: "Biondi",
+        iban: "1234 1234 1234 1234",
+      }
+    ];
   }
 }

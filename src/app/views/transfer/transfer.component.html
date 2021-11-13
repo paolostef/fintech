@@ -1,0 +1,132 @@
+<mat-card>
+  <div class="container">
+    <div class="row">
+      <div class="col pt-4 pb-4">
+        <button
+          class="width100"
+          mat-raised-button
+          type="button"
+          (click)="openContactList()"
+        >
+          Lista contatti
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="transfer(f.value)">
+    <div class="container">
+      <!-- Nome -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Nome</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="name"
+              #nameRef="ngModel"
+              required
+              matInput
+            />
+            <mat-error *ngIf="nameRef.dirty && nameRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Cognome -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Cognome</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="surname"
+              #surnameRef="ngModel"
+              required
+              matInput
+            />
+            <mat-error *ngIf="surnameRef.dirty && surnameRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- IBAN -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>IBAN</mat-label>
+            <input
+              type="text"
+              [ngModel]
+              name="iban"
+              #ibanRef="ngModel"
+              required
+              matInput
+            />
+            <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Importo -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Importo</mat-label>
+            <input
+              type="number"
+              [ngModel]
+              name="amount"
+              #amountRef="ngModel"
+              required
+              matInput
+            />
+            <mat-error *ngIf="amountRef.dirty && amountRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Carta -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Seleziona una carta</mat-label>
+            <mat-select [ngModel] name="cardId" #cardIdRef="ngModel" required>
+              <mat-option *ngFor="let card of cards" [value]="card._id">
+                {{ card.number }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="cardIdRef.dirty && cardIdRef.errors?.required">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="row">
+        <div class="col">
+          <button
+            class="width100"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="f.invalid"
+          >
+            Trasferisci denaro
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>
