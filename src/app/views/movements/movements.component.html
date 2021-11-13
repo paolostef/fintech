@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="fill">
+        <mat-label>Seleziona una carta</mat-label>
+        <mat-select (selectionChange)="selectCard($event.value)">
+          <mat-option *ngFor="let card of cards" [value]="card._id">
+            {{ card.number }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" *ngIf="selectedCard">
+    <div class="col">
+      <div class="amount-style">
+        Saldo: {{ getTotalAmount() | currency: "EUR":"symbol":".0-2" }}
+      </div>
+
+      <div *ngFor="let mov of getMovementsPaged()" class="movements-style">
+        <app-movement
+          date="{{ mov.timestamp | date: 'dd/MM/yyyy' }}"
+          [amount]="mov.amount"
+          [type]="mov.type"
+          [title]="mov.title"
+          [description]="mov.description"
+        ></app-movement>
+      </div>
+
+      <button
+      *ngIf="showLoadButton()"
+        class="movements-style width100"
+        mat-raised-button
+        type="button"
+        (click)="getNextPage()"
+      >
+        Carica altro
+      </button>
+    </div>
+  </div>
+</div>
