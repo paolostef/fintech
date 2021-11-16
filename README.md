@@ -22,4 +22,4 @@ ng add @angular/material
 
 ##TODO
 https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-transfer/
-a metà del ContactsComponent
+TransferComponent, finale

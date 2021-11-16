@@ -5,7 +5,7 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Nome</mat-label>
-          <input type="text" [ngModel] name="name" #nameRef="ngModel" required matInput />
+          <input type="text" [ngModel]="initialContact?.name" name="name" #nameRef="ngModel" required matInput />
           <mat-error *ngIf="nameRef.dirty && nameRef.errors?.required">
             Campo <strong>obbligatorio</strong>
           </mat-error>
@@ -18,7 +18,8 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Cognome</mat-label>
-          <input type="text" [ngModel] name="surname" #surnameRef="ngModel" required matInput />
+          <input type="text" [ngModel]="initialContact?.surname" name="surname" #surnameRef="ngModel" required
+            matInput />
           <mat-error *ngIf="surnameRef.dirty && surnameRef.errors?.required">
             Campo <strong>obbligatorio</strong>
           </mat-error>
@@ -31,7 +32,7 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>IBAN</mat-label>
-          <input type="text" [ngModel] name="iban" #ibanRef="ngModel" required matInput />
+          <input type="text" [ngModel]="initialContact?.iban" name="iban" #ibanRef="ngModel" required matInput />
           <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.required">
             Campo <strong>obbligatorio</strong>
           </mat-error>

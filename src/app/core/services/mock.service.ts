@@ -59,22 +59,27 @@ export class MockService {
     return movs;
   }
 
+  private contacts: Contact[] = [
+    {
+      _id: "Michele_Stieven",
+      name: "Michele",
+      surname: "Stieven",
+      iban: "1111 1111 1111 1111",
+    },
+
+    {
+      _id: "Fabio_Biondi",
+      name: "Fabio",
+      surname: "Biondi",
+      iban: "1234 1234 1234 1234",
+    }
+  ];
 
   getContacts() : Contact[] {
-    return [
-      {
-        _id: "Michele_Stieven",
-        name: "Michele",
-        surname: "Stieven",
-        iban: "1111 1111 1111 1111",
-      },
+    return this.contacts;
+  }
 
-      {
-        _id: "Fabio_Biondi",
-        name: "Fabio",
-        surname: "Biondi",
-        iban: "1234 1234 1234 1234",
-      }
-    ];
+  setContact(c: Contact[]) {
+    this.contacts = c;
   }
 }

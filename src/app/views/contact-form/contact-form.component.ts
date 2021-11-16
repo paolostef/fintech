@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Contact } from 'src/app/models/contact';
 
 @Component({
@@ -7,9 +7,13 @@ import { Contact } from 'src/app/models/contact';
   styleUrls: ['./contact-form.component.scss'],
 })
 export class ContactFormComponent {
+  @Input() initialContact: Contact | null = null;
   @Output() saveContact = new EventEmitter<Contact>();
 
   submit(value: Contact) {
+    if (this.initialContact) {
+      value._id = this.initialContact._id;
+    }
     this.saveContact.emit(value);
   }
 }
