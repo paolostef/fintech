@@ -1,1 +1,39 @@
-<p>contact-list works!</p>
+<mat-form-field class="width100" appearance="fill">
+  <mat-label>Cerca</mat-label>
+  <input #search matInput type="search">
+  <button *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="search.value=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+
+<mat-list appearance="fill">
+  <div mat-subheader>Contatti</div>
+  <ng-container *ngFor="let contact of contacts | filter:search.value">
+    <mat-list-item appearance="fill">
+      <!-- Descrizione carta-->
+      <mat-icon matListIcon>account_circle</mat-icon>
+      <div matLine>{{ contact.name }} {{ contact.surname }}</div>
+      <div matLine>
+        {{ contact.iban }}
+      </div>
+
+      <!-- Seleziona -->
+      <button mat-icon-button (click)="clickSelect(contact)">
+        <mat-icon title="Seleziona">done</mat-icon>
+      </button>
+
+
+      <!-- Modifica -->
+      <button mat-icon-button (click)="clickEdit(contact)">
+        <mat-icon title="Modifica">edit</mat-icon>
+      </button>
+
+      <!-- Cancella -->
+      <button mat-icon-button (click)="clickDelete(contact)">
+        <mat-icon title="Cancella">delete</mat-icon>
+      </button>
+
+    </mat-list-item>
+  </ng-container>
+</mat-list>

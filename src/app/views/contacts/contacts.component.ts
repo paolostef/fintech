@@ -15,20 +15,29 @@ export class ContactsComponent implements OnInit {
     private _mock: MockService,
     public dialogRef: MatDialogRef<ContactsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.contacts = this._mock.getContacts();
   }
+
 
   exitNoAction() {
     this.dialogRef.close();
   }
+
+  ngOnInit(): void {}
+
   addItem() {}
-  editItem(contact: Contact) {
-    console.log(contact);
+
+
+  selectItem(id: string) {
+    console.log(id);
+    const item = this.contacts.filter(x => x._id === id)[0];
+    this.dialogRef.close(item)
   }
-  deleteItem(contact: Contact) {
-    console.log(contact);
+  editItem(id: string) {
+    console.log(id);
+  }
+  deleteItem(id: string) {
+    console.log(id);
   }
 }

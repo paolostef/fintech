@@ -1,40 +1,5 @@
-<mat-form-field class="width100" appearance="fill">
-  <mat-label>Cerca</mat-label>
-  <input #search matInput type="search">
-</mat-form-field>
-
-
-<mat-list appearance="fill">
-  <div mat-subheader>Contatti</div>
-  <ng-container *ngFor="let contact of contacts">
-    <mat-list-item appearance="fill">
-      <!-- Descrizione carta-->
-      <mat-icon matListIcon>account_circle</mat-icon>
-      <div matLine>{{ contact.name }} {{ contact.surname }}</div>
-      <div matLine>
-        {{ contact.iban }}
-      </div>
-
-      <!-- Seleziona -->
-      <button mat-icon-button [mat-dialog-close]="contact">
-        <mat-icon title="Seleziona">done</mat-icon>
-      </button>
-
-
-      <!-- Modifica -->
-      <button mat-icon-button (click)="editItem(contact)">
-        <mat-icon title="Modifica">edit</mat-icon>
-      </button>
-
-      <!-- Cancella -->
-      <button mat-icon-button (click)="deleteItem(contact)">
-        <mat-icon title="Cancella">delete</mat-icon>
-      </button>
-
-    </mat-list-item>
-  </ng-container>
-</mat-list>
-
+<app-contact-list [contacts]="contacts" (select)="selectItem($event)" (edit)="editItem($event)"
+  (delete)="deleteItem($event)"></app-contact-list>
 <button class="width100" mat-raised-button color="secondary" type="button" (click)="addItem()">
   Nuovo Contatto
 </button>
