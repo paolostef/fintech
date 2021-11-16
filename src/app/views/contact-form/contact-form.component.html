@@ -1,1 +1,51 @@
-<p>contact-form works!</p>
+<form #f="ngForm" (ngSubmit)="submit(f.value)">
+  <div class="container">
+    <!-- Nome -->
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill" class="width100">
+          <mat-label>Nome</mat-label>
+          <input type="text" [ngModel] name="name" #nameRef="ngModel" required matInput />
+          <mat-error *ngIf="nameRef.dirty && nameRef.errors?.required">
+            Campo <strong>obbligatorio</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Cognome -->
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill" class="width100">
+          <mat-label>Cognome</mat-label>
+          <input type="text" [ngModel] name="surname" #surnameRef="ngModel" required matInput />
+          <mat-error *ngIf="surnameRef.dirty && surnameRef.errors?.required">
+            Campo <strong>obbligatorio</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- IBAN -->
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill" class="width100">
+          <mat-label>IBAN</mat-label>
+          <input type="text" [ngModel] name="iban" #ibanRef="ngModel" required matInput />
+          <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.required">
+            Campo <strong>obbligatorio</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="row">
+      <div class="col">
+        <button class="width100" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">
+          Salva
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

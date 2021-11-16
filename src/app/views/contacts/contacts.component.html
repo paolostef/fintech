@@ -1,5 +1,15 @@
-<app-contact-list [contacts]="contacts" (select)="selectItem($event)" (edit)="editItem($event)"
-  (delete)="deleteItem($event)"></app-contact-list>
-<button class="width100" mat-raised-button color="secondary" type="button" (click)="addItem()">
-  Nuovo Contatto
-</button>
+<ng-container *ngIf="true">
+  <app-contact-list [contacts]="contacts" (select)="selectItem($event)" (edit)="editItem($event)"
+    (delete)="deleteItem($event)"></app-contact-list>
+  <button class="width100" mat-raised-button color="secondary" type="button" (click)="addItem()">
+    Nuovo Contatto
+  </button>
+</ng-container>
+
+
+<ng-container *ngIf="true">
+  <button class="width100" mat-raised-button type="button" (click)="back()">
+    Indietro
+  </button>
+  <app-contact-form (saveContact)="saveContact($event)"></app-contact-form>
+</ng-container>

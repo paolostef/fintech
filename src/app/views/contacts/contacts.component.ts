@@ -19,7 +19,6 @@ export class ContactsComponent implements OnInit {
     this.contacts = this._mock.getContacts();
   }
 
-
   exitNoAction() {
     this.dialogRef.close();
   }
@@ -28,11 +27,10 @@ export class ContactsComponent implements OnInit {
 
   addItem() {}
 
-
   selectItem(id: string) {
     console.log(id);
-    const item = this.contacts.filter(x => x._id === id)[0];
-    this.dialogRef.close(item)
+    const item = this.contacts.filter((x) => x._id === id)[0];
+    this.dialogRef.close(item);
   }
   editItem(id: string) {
     console.log(id);
@@ -40,4 +38,8 @@ export class ContactsComponent implements OnInit {
   deleteItem(id: string) {
     console.log(id);
   }
+
+  back() {}
+
+  saveContact(contact: Contact) {}
 }
