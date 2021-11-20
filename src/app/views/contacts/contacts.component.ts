@@ -30,7 +30,7 @@ export class ContactsComponent implements OnInit {
   selectItem(id: string) {
     console.log(id);
     const item = this.contacts.filter((x) => x._id === id)[0];
-    this.dialogRef.close(item);
+    this.dialogRef.close(id);
   }
 
   addItem() {
