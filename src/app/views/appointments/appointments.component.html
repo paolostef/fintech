@@ -1,0 +1,15 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer-content>
+    <app-location-list
+      [sites]="sites"
+      (select)="openSite($event)"
+    ></app-location-list>
+  </mat-drawer-content>
+  <mat-drawer mode="side" opened="false" position='end'>
+    <app-appointment *ngIf="selectedSite"
+      [coords]="selectedSite.coords"
+      [slots]="slots"
+      (select)="addAppointment($event)"
+    ></app-appointment>
+  </mat-drawer>
+</mat-drawer-container>

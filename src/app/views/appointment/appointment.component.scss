@@ -1,0 +1,22 @@
+.mat-list-item {
+  cursor: pointer;
+}
+.mat-list-item:hover {
+  background: #DDD;
+}
+
+
+.mat-card {
+  width: 33vw;
+}
+
+.static-map {
+  ::ng-deep .map-container {
+    width: 25vw;
+    height: 25vw;
+  }
+}
+
+.row {
+  margin-bottom: 2vh;
+}

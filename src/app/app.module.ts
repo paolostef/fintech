@@ -7,7 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material.module';
 import { SigninComponent } from './views/signin/signin.component';
 import { FormsModule } from '@angular/forms';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from '@angular/material/core';
 import { RegisterComponent } from './views/register/register.component';
 import { LoginComponent } from './views/login/login.component';
 import { CardListComponent } from './views/card-list/card-list.component';
@@ -21,6 +24,11 @@ import { ContactsComponent } from './views/contacts/contacts.component';
 import { ContactListComponent } from './views/contact-list/contact-list.component';
 import { ContactFormComponent } from './views/contact-form/contact-form.component';
 import { FilterPipe } from './shared/pipes/filter.pipe';
+import { AppointmentsComponent } from './views/appointments/appointments.component';
+import { AppointmentComponent } from './views/appointment/appointment.component';
+import { LocationListComponent } from './views/location-list/location-list.component';
+import { LeafletMapComponent } from './shared/components/leaflet-map/leaflet-map.component';
+import { OkCancelDialogComponent } from './shared/components/ok-cancel-dialog/ok-cancel-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,16 +46,23 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     ContactsComponent,
     ContactListComponent,
     ContactFormComponent,
-    FilterPipe
+    FilterPipe,
+    AppointmentsComponent,
+    AppointmentComponent,
+    LocationListComponent,
+    LeafletMapComponent,
+    OkCancelDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
   ],
-  providers: [{provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

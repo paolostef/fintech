@@ -1,0 +1,36 @@
+<mat-card>
+  <div class="container">
+
+    <div class="row">
+      <div class="col">
+        <app-leaflet-map class="static-map" [coords]="coords"></app-leaflet-map>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-label>Scegli una data</mat-label>
+          <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" (dateChange)="dateChange($event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="row" *ngIf="selectedDate">
+      <div class="col">
+        <mat-list appearance="fill">
+          <div mat-subheader>Orari disponibili</div>
+          <ng-container *ngFor="let hour of selectedDate.slots">
+            <mat-list-item appearance="fill" (click)="hourChange(hour)">
+              <mat-icon matListIcon>schedule</mat-icon>
+              <div matLine>{{ hour }}</div>
+            </mat-list-item>
+          </ng-container>
+        </mat-list>
+      </div>
+    </div>
+  </div>
+</mat-card>

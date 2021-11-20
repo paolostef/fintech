@@ -1,0 +1,12 @@
+<mat-list appearance="fill">
+  <div mat-subheader>Sedi</div>
+  <ng-container *ngFor="let site of sites">
+    <mat-list-item appearance="fill" (click)="select.emit(site)">
+      <mat-icon matListIcon>business</mat-icon>
+      <div matLine>{{ site.name }}</div>
+      <div matLine>
+        {{ site.address}}
+      </div>
+    </mat-list-item>
+  </ng-container>
+</mat-list>

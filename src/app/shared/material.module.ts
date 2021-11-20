@@ -31,8 +31,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FilterPipe } from './pipes/filter.pipe';
-
 
 const modules = [
   MatCheckboxModule,
@@ -66,21 +64,19 @@ const modules = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
-  MatNativeDateModule
+  MatNativeDateModule,
 ];
 
 @NgModule({
   imports: [CommonModule, ...modules],
   exports: [...modules],
   declarations: [
-
-
   ],
   providers: [
     {
       provide: MAT_DATE_LOCALE,
-      useValue: 'it-IT'
-    }
-  ]
+      useValue: 'it-IT',
+    },
+  ],
 })
 export class MaterialModule {}

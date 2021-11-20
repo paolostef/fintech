@@ -1,12 +1,5 @@
-import {
-  Component,
-  ContentChild,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { TransitionCheckState } from '@angular/material/checkbox';
-import { MatDrawer, MatDrawerContent } from '@angular/material/sidenav';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MockService } from 'src/app/core/services/mock.service';
 import { Card } from 'src/app/models/card';
