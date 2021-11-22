@@ -1,34 +1,37 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './shared/material.module';
-import { SigninComponent } from './views/signin/signin.component';
 import { FormsModule } from '@angular/forms';
 import {
   ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher
 } from '@angular/material/core';
-import { RegisterComponent } from './views/register/register.component';
-import { LoginComponent } from './views/login/login.component';
-import { CardListComponent } from './views/card-list/card-list.component';
-import { CardFormComponent } from './views/card-form/card-form.component';
-import { CardsComponent } from './views/cards/cards.component';
-import { MovementComponent } from './views/movement/movement.component';
-import { MovementsComponent } from './views/movements/movements.component';
-import { TruncatePipe } from './shared/pipes/truncate.pipe';
-import { TransferComponent } from './views/transfer/transfer.component';
-import { ContactsComponent } from './views/contacts/contacts.component';
-import { ContactListComponent } from './views/contact-list/contact-list.component';
-import { ContactFormComponent } from './views/contact-form/contact-form.component';
-import { FilterPipe } from './shared/pipes/filter.pipe';
-import { AppointmentsComponent } from './views/appointments/appointments.component';
-import { AppointmentComponent } from './views/appointment/appointment.component';
-import { LocationListComponent } from './views/location-list/location-list.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { LeafletMapComponent } from './shared/components/leaflet-map/leaflet-map.component';
 import { OkCancelDialogComponent } from './shared/components/ok-cancel-dialog/ok-cancel-dialog.component';
+import { MaterialModule } from './shared/material.module';
+import { FilterPipe } from './shared/pipes/filter.pipe';
+import { TruncatePipe } from './shared/pipes/truncate.pipe';
+import { AppointmentComponent } from './views/appointment/appointment.component';
+import { AppointmentsComponent } from './views/appointments/appointments.component';
+import { CardFormComponent } from './views/card-form/card-form.component';
+import { CardListComponent } from './views/card-list/card-list.component';
+import { CardsComponent } from './views/cards/cards.component';
+import { ContactFormComponent } from './views/contact-form/contact-form.component';
+import { ContactListComponent } from './views/contact-list/contact-list.component';
+import { ContactsComponent } from './views/contacts/contacts.component';
+import { LocationListComponent } from './views/location-list/location-list.component';
+import { LoginComponent } from './views/login/login.component';
+import { MovementComponent } from './views/movement/movement.component';
+import { MovementsComponent } from './views/movements/movements.component';
+import { RegisterComponent } from './views/register/register.component';
+import { SigninComponent } from './views/signin/signin.component';
+import { TransferComponent } from './views/transfer/transfer.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { SidenavComponent } from './shared/components/sidenav/sidenav.component';
+import { WelcomeComponent } from './views/welcome/welcome.component';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { OkCancelDialogComponent } from './shared/components/ok-cancel-dialog/ok
     AppointmentComponent,
     LocationListComponent,
     LeafletMapComponent,
-    OkCancelDialogComponent
+    OkCancelDialogComponent,
+    DashboardComponent,
+    SidenavComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,44 @@
+<mat-toolbar >
+  <span>Menu</span>
+</mat-toolbar>
+
+
+<mat-list>
+
+    <mat-list-item appearance="fill" routerLinkActive="active-route" [routerLinkActiveOptions]="{exact:true}" routerLink="/dashboard">
+      <mat-icon matListIcon>home</mat-icon>
+      <div matLine>Home</div>
+    </mat-list-item>
+
+    <mat-list-item appearance="fill" routerLinkActive="active-route" [routerLinkActiveOptions]="{exact:true}"  routerLink="cards">
+      <mat-icon matListIcon>credit_card</mat-icon>
+      <div matLine>Carte</div>
+    </mat-list-item>
+
+    <mat-list-item appearance="fill" routerLinkActive="active-route" [routerLinkActiveOptions]="{exact:true}"  routerLink="movements">
+      <mat-icon matListIcon>receipt_long</mat-icon>
+      <div matLine>Movimenti</div>
+    </mat-list-item>
+
+    <mat-list-item appearance="fill" routerLinkActive="active-route" [routerLinkActiveOptions]="{exact:true}"  routerLink="transfer">
+      <mat-icon matListIcon>paid</mat-icon>
+      <div matLine>Trasferisci</div>
+    </mat-list-item>
+
+    <mat-list-item appearance="fill" routerLinkActive="active-route" [routerLinkActiveOptions]="{exact:true}"  routerLink="appointments">
+      <mat-icon matListIcon>event</mat-icon>
+      <div matLine>Appuntamenti</div>
+    </mat-list-item>
+
+    <mat-list-item appearance="fill" routerLinkActive="active-route" [routerLinkActiveOptions]="{exact:true}"  routerLink="taxes">
+      <mat-icon matListIcon>summarize</mat-icon>
+      <div matLine>Tasse</div>
+    </mat-list-item>
+
+
+    <mat-list-item appearance="fill">
+      <mat-icon matListIcon>person</mat-icon>
+      <div matLine>{{name}}</div>
+      <div matLine (click)="logout()">Logout</div>
+    </mat-list-item>
+</mat-list>
