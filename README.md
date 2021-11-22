@@ -22,4 +22,5 @@ ng add @angular/material
 
 ##TODO
 https://angular-training.it/courses/angular-academy-1/lessons/fintech-routing-e-moduli/
-
+mancano le rotte:
+Per il momento, ogni sezione ha una sola rotta, quindi in ogni Routing Module avrai una sola rotta vuota 
