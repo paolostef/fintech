@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppointmentsComponent } from './views/appointments/appointments.component';
 import { CardsComponent } from './views/cards/cards.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { WelcomeComponent } from './views/dashboard/welcome/welcome.component';
 import { LoginComponent } from './views/login/login.component';
 import { MovementsComponent } from './views/movements/movements.component';
+import { TaxesComponent } from './views/taxes/taxes.component';
 import { TransferComponent } from './views/transfer/transfer.component';
-import { WelcomeComponent } from './views/welcome/welcome.component';
 
 const routes: Routes = [
   { path: 'login', pathMatch: 'full', redirectTo: 'login/signin' },
@@ -21,7 +22,7 @@ const routes: Routes = [
       { path: 'movements', component: MovementsComponent },
       { path: 'transfer', component: TransferComponent },
       { path: 'appointments', component: AppointmentsComponent },
-      { path: 'taxes', component: WelcomeComponent }, //TODO TAXES
+      { path: 'taxes', component: TaxesComponent }, //TODO TAXES
     ],
   },
   { path: '', pathMatch: 'full', redirectTo: 'login/signin' },

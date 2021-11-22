@@ -35,7 +35,7 @@ export class CardFormComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    console.log('f:', this.form);
+    // console.log('f:', this.form);
   }
 
   save(data: CardForm) {

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MockService } from 'src/app/core/services/mock.service';
 import { Card } from 'src/app/models/card';
 import { CardForm } from 'src/app/models/card-form';
-import { CardFormComponent } from '../card-form/card-form.component';
+import { CardFormComponent } from './card-form/card-form.component';
 
 @Component({
   selector: 'app-cards',

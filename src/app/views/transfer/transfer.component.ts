@@ -4,9 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MockService } from 'src/app/core/services/mock.service';
 import { Card } from 'src/app/models/card';
-import { Contact } from 'src/app/models/contact';
 import { Transfer } from 'src/app/models/transfer';
-import { ContactsComponent } from '../contacts/contacts.component';
+import { ContactsComponent } from './contacts/contacts.component';
 
 @Component({
   selector: 'app-transfer',
