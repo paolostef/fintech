@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MockService } from 'src/app/core/services/mock.service';
+import { Router } from '@angular/router';
+import { CardsService } from 'src/app/api/cards.service';
 import { Card } from 'src/app/models/card';
 import { CardForm } from 'src/app/models/card-form';
 import { CardFormComponent } from './card-form/card-form.component';
@@ -11,37 +12,52 @@ import { CardFormComponent } from './card-form/card-form.component';
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss'],
 })
-export class CardsComponent implements OnInit {
+export class CardsComponent {
   @ViewChild(MatDrawer, { static: true }) matDrawer?: MatDrawer;
   @ViewChild('insertCard') cardForm?: CardFormComponent;
 
-  cards: Card[] = this._mock.getCards();
+  cards: Card[] = [];
 
-  constructor(private _snackBar: MatSnackBar, private _mock: MockService) {}
-
-  ngOnInit(): void {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private cardsService: CardsService,
+    private router: Router
+  ) {
+    this.cardsService.getCards().subscribe({
+      next: (cards) => (this.cards = cards),
+      error: console.error,
+    });
+  }
 
   addCard(data: CardForm) {
-    const card = {
-      _id: 'x',
-      number: data.cardnumber,
-      ownerId: 'x',
-      owner: data.name + ' ' + data.surname,
-      type: data.type,
-      amount: 0,
-    };
-    this.cards = [...this.cards, card];
-    this.closeAddMovement();
-    this._snackBar.open('Card aggiunta!', 'Ok');
+    this.cardsService.addCard(data).subscribe({
+      next: (card) => {
+        this.cards = [...this.cards, card];
+        this.closeAddMovement();
+        this.snackBar.open('Card aggiunta!', 'Ok');
+      },
+      error: console.error,
+    });
   }
 
   removeMovement(id: string) {
-    this.cards = this.cards.filter((x) => x._id != id);
-    this._snackBar.open('Card rimossa!', 'Ok');
+    this.cardsService.deleteCard(id).subscribe({
+      next: (ok) => {
+        if (ok) {
+          this.cards = this.cards.filter((x) => x._id != id);
+          this.snackBar.open('Card rimossa!', 'Ok');
+        } else {
+          this.snackBar.open('Card non trovata', 'KO');
+        }
+      },
+      error: console.error,
+    });
   }
 
-  viewMovement(id: String) {
-    //TODO
+  viewMovement(id: string) {
+    if (id) {
+      this.router.navigateByUrl(`/dashboard/movements/${id}`);
+    }
   }
 
   addMovement() {

@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DateUtilsService } from 'src/app/core/services/data-utils.service';
-import { MockService } from 'src/app/core/services/mock.service';
+import { AppointmentsService } from 'src/app/api/appointments.service';
 import { DayWithSlot } from 'src/app/models/day-with-slot';
 import { DayWithSlots } from 'src/app/models/day-with-slots';
 import { Location } from 'src/app/models/location';
@@ -19,8 +18,14 @@ export class AppointmentsComponent {
 
   @ViewChild(MatDrawer, { static: true }) matDrawer!: MatDrawer;
 
-  constructor(private _mock: MockService, private _snackBar: MatSnackBar) {
-    this.sites = this._mock.getSites();
+  constructor(
+    private snackBar: MatSnackBar,
+    private appointmentsService: AppointmentsService
+  ) {
+    this.appointmentsService.getLocations().subscribe({
+      next: (locations) => (this.sites = locations),
+      error: console.error
+    });
   }
 
   openSite(location: Location) {
@@ -29,7 +34,7 @@ export class AppointmentsComponent {
       if (this.matDrawer.opened) {
         this.matDrawer.close();
       }
-      this._mock.getSlots(location._id).subscribe({
+      this.appointmentsService.getSlots(location._id).subscribe({
         next: (result) => {
           this.slots = result;
           // Un po' di timeout per vedere l'effetto chiudi/apri
@@ -47,7 +52,15 @@ export class AppointmentsComponent {
     console.log(slot);
     this.matDrawer.close();
     this.selectedSite = null;
-    //TODO CHIAMA SERVIZIO
-    this._snackBar.open('Appuntamento confermato!', 'Ok');
+    this.appointmentsService.schedule(slot).subscribe({
+      next: (esit) => {
+        if (esit) {
+          this.snackBar.open('Appuntamento confermato!', 'Ok');
+        } else {
+          this.snackBar.open("Impossibile confermare l'appuntamento", 'KO');
+        }
+      },
+      error: console.error
+    });
   }
 }

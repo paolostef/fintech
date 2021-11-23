@@ -4,6 +4,6 @@ export interface CardForm {
   type: CardType;
   name: string;
   surname: string;
-  cardnumber: string;
-  cardcode: string;
+  number: string;
+  csc: string;
 }

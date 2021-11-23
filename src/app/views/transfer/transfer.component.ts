@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MockService } from 'src/app/core/services/mock.service';
+import { CardsService } from 'src/app/api/cards.service';
+import { ContactsService } from 'src/app/api/contacts.service';
+import { TransferService } from 'src/app/api/transfer.service';
 import { Card } from 'src/app/models/card';
 import { Transfer } from 'src/app/models/transfer';
 import { ContactsComponent } from './contacts/contacts.component';
@@ -18,17 +20,22 @@ export class TransferComponent implements OnInit {
   cards: Card[] = [];
 
   constructor(
-    private _mock: MockService,
-    private _snackBar: MatSnackBar,
-    public _dialog: MatDialog
+    private cardsService: CardsService,
+    private contactsService: ContactsService,
+    private transferService: TransferService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.cards = this._mock.getCards();
+    this.cardsService.getCards().subscribe({
+      next: (cards) => (this.cards = cards),
+      error: console.error,
+    });
   }
 
   openContactList() {
-    const dialogRef = this._dialog.open(ContactsComponent, {
+    const dialogRef = this.dialog.open(ContactsComponent, {
       width: '500px',
       data: {},
     });
@@ -36,22 +43,33 @@ export class TransferComponent implements OnInit {
     dialogRef.afterClosed().subscribe((id) => {
       console.log('The dialog was closed', id);
       if (id) {
-        const { name, surname, iban } = this._mock
-          .getContacts()
-          .filter((c) => c._id === id)[0];
-        this.form.setValue({
-          ...this.form.value,
-          name,
-          surname,
-          iban,
+        this.contactsService.getContacts().subscribe({
+          next: (contacts) => {
+            const { name, surname, iban } = contacts.filter(
+              (c) => c._id === id
+            )[0];
+            this.form.setValue({
+              ...this.form.value,
+              name,
+              surname,
+              iban,
+            });
+          },
         });
       }
     });
   }
 
   submitTransfer(transfer: Transfer) {
-    console.log(transfer);
-    // TODO CHIAMA IL SERVER
-    this._snackBar.open('Trasferimento avvenuto con successo', 'Ok');
+    this.transferService.transfer(transfer).subscribe({
+      next: (ok) => {
+        if (ok) {
+          this.snackBar.open('Trasferimento avvenuto con successo', 'Ok');
+        } else {
+          this.snackBar.open('Trasferimento NON riuscito', 'KO');
+        }
+      },
+      error: console.error,
+    });
   }
 }

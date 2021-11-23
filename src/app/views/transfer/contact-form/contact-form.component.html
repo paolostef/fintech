@@ -32,9 +32,13 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>IBAN</mat-label>
-          <input type="text" [ngModel]="initialContact?.iban" name="iban" #ibanRef="ngModel" required matInput />
+          <input type="text" [ngModel]="initialContact?.iban" name="iban" #ibanRef="ngModel" required matInput
+            minlength="16" maxlength="16" />
           <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.required">
             Campo <strong>obbligatorio</strong>
+          </mat-error>
+          <mat-error *ngIf="ibanRef.dirty && (ibanRef.errors?.minlength || ibanRef.errors?.maxlength)">
+            Numero di lunghezza 16
           </mat-error>
         </mat-form-field>
       </div>

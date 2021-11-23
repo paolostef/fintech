@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
-import { distinct, filter, map, take, toArray } from 'rxjs/operators';
-import { MockService } from 'src/app/core/services/mock.service';
+import { ActivatedRoute } from '@angular/router';
+import { CardsService } from 'src/app/api/cards.service';
 import { Card } from 'src/app/models/card';
 import Movement from 'src/app/models/movement';
 
@@ -12,55 +11,65 @@ import Movement from 'src/app/models/movement';
 })
 export class MovementsComponent implements OnInit {
   movements: Movement[] = [];
+  movementsCount = 0;
   cards: Card[] = [];
   selectedCard: Card | undefined = undefined;
-  pageNumber: number = 0;
-  pageSize: number = 5;
+  offset: number = 0;
+  LIMIT: number = 5;
+  queryParamId: string = "";
 
-  constructor(private _mock: MockService){}
+  constructor(
+    private cardsService: CardsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.createMockData();
+    this.cardsService.getCards().subscribe({
+      next: (cards) => {
+        this.cards = cards;
+        const cardId = this.route.snapshot.paramMap.get('id');
+        if (!!cardId && this.isValid(cardId)) {
+          this.queryParamId = cardId;
+          this.selectCard(cardId);
+        }
+      },
+      error: console.error,
+    });
+  }
+
+  isValid(cardId: string): boolean {
+    return this.cards.findIndex((c) => c._id === cardId) != -1;
   }
 
   selectCard(cardId: string) {
     this.selectedCard = this.cards.find((c) => c._id === cardId);
     // Mostro i primi 5 movimenti di quella carta
-    this.pageNumber = 0;
+    this.movements = [];
+    this.movementsCount = 0;
+    this.offset = 0;
+    this.loadPage(cardId, this.offset);
   }
 
   getNextPage() {
-    this.pageNumber++;
-  }
-
-  showLoadButton(): boolean {
-    // TODO Immagino che il totalCount verrà dal server
-    const totalCount = this.movements.filter(
-      (m) => m.cardId === this.selectedCard?.number
-    ).length;
-    const size = this.getMovementsPaged().length;
-    return totalCount > size;
-  }
-
-  getMovementsPaged(): Movement[] {
-    // TODO Immagino che la paginazione sarà sul server
-    return this.movements
-      .filter((m) => m.cardId === this.selectedCard?.number)
-      .splice(0, this.pageNumber * this.pageSize + this.pageSize);
+    if (this.selectedCard) {
+      this.offset += this.LIMIT;
+      this.loadPage(this.selectedCard._id, this.offset);
+    }
   }
 
   getTotalAmount(): number {
     return this.movements
-      .filter((m) => m.cardId === this.selectedCard?.number)
       .map((m) => (m.type === 'in' ? m.amount : -1 * m.amount))
       .reduce((acc, curr) => acc + curr, 0);
   }
 
-  createMockData() {
-
-    // TODO chiamata a servizio
-    this.movements = this._mock.getMovements();
-    this.cards = this._mock.getCards();
-
+  loadPage(cardId: string, offset: number) {
+    this.cardsService.getMovements(cardId, offset, this.LIMIT).subscribe({
+      next: (movs) => {
+        this.movements = [...this.movements, ...movs.data];
+        this.movementsCount = movs.total;
+      },
+      error: console.error,
+    });
   }
 }

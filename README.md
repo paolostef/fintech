@@ -21,4 +21,4 @@ Installa angular material \
 ng add @angular/material
 
 ##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-api-aggiunta-dei-servizi/
+https://angular-training.it/courses/angular-academy-1/lessons/fintech-creazione-dei-validatori/

@@ -2,12 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col pt-4 pb-4">
-        <button
-          class="width100"
-          mat-raised-button
-          type="button"
-          (click)="openContactList()"
-        >
+        <button class="width100" mat-raised-button type="button" (click)="openContactList()">
           Lista contatti
         </button>
       </div>
@@ -21,14 +16,7 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>Nome</mat-label>
-            <input
-              type="text"
-              [ngModel]
-              name="name"
-              #nameRef="ngModel"
-              required
-              matInput
-            />
+            <input type="text" [ngModel] name="name" #nameRef="ngModel" required matInput />
             <mat-error *ngIf="nameRef.dirty && nameRef.errors?.required">
               Campo <strong>obbligatorio</strong>
             </mat-error>
@@ -41,14 +29,7 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>Cognome</mat-label>
-            <input
-              type="text"
-              [ngModel]
-              name="surname"
-              #surnameRef="ngModel"
-              required
-              matInput
-            />
+            <input type="text" [ngModel] name="surname" #surnameRef="ngModel" required matInput />
             <mat-error *ngIf="surnameRef.dirty && surnameRef.errors?.required">
               Campo <strong>obbligatorio</strong>
             </mat-error>
@@ -61,16 +42,13 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>IBAN</mat-label>
-            <input
-              type="text"
-              [ngModel]
-              name="iban"
-              #ibanRef="ngModel"
-              required
-              matInput
-            />
+            <input type="text" [ngModel] name="iban" #ibanRef="ngModel" required matInput minlength="16"
+              maxlength="16" />
             <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.required">
               Campo <strong>obbligatorio</strong>
+            </mat-error>
+            <mat-error *ngIf="ibanRef.dirty && (ibanRef.errors?.minlength || ibanRef.errors?.maxlength)">
+              Numero di lunghezza 16
             </mat-error>
           </mat-form-field>
         </div>
@@ -81,14 +59,7 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>Importo</mat-label>
-            <input
-              type="number"
-              [ngModel]
-              name="amount"
-              #amountRef="ngModel"
-              required
-              matInput
-            />
+            <input type="number" [ngModel] name="amount" #amountRef="ngModel" required matInput />
             <mat-error *ngIf="amountRef.dirty && amountRef.errors?.required">
               Campo <strong>obbligatorio</strong>
             </mat-error>
@@ -116,13 +87,7 @@
       <!-- Submit -->
       <div class="row">
         <div class="col">
-          <button
-            class="width100"
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="f.invalid"
-          >
+          <button class="width100" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">
             Trasferisci denaro
           </button>
         </div>

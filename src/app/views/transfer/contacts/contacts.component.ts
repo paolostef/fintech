@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MockService } from 'src/app/core/services/mock.service';
+import { ContactsService } from 'src/app/api/contacts.service';
 import { Contact } from 'src/app/models/contact';
 
 @Component({
@@ -8,24 +8,25 @@ import { Contact } from 'src/app/models/contact';
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss'],
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent {
   contacts: Contact[] = [];
   showList = true;
   initialContact: Contact | null = null;
 
   constructor(
-    private _mock: MockService,
+    private contactsService: ContactsService,
     public dialogRef: MatDialogRef<ContactsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.contacts = this._mock.getContacts();
+    this.contactsService.getContacts().subscribe({
+      next: (c) => (this.contacts = c),
+      error: console.error,
+    });
   }
 
   exitNoAction() {
     this.dialogRef.close();
   }
-
-  ngOnInit(): void {}
 
   selectItem(id: string) {
     console.log(id);
@@ -44,26 +45,35 @@ export class ContactsComponent implements OnInit {
   }
 
   deleteItem(id: string) {
-    this.contacts = this.contacts.filter((x) => x._id !== id);
-    this._mock.setContact(this.contacts);
+    this.contactsService.deleteContact(id).subscribe({
+      next: (ok) => {
+        if (ok) {
+          this.contacts = this.contacts.filter((x) => x._id !== id);
+        }
+      },
+    });
   }
 
-  saveContact(contact: Contact) {
+  saveContact(contact: Partial<Contact>) {
     if (!contact._id) {
-      contact._id = Math.random() + '';
-      this.contacts = [...this.contacts, contact];
-      console.log("Aggiunto contatto", contact);
-    } else {
-      this.contacts = this.contacts.map((x) => {
-        if (x._id === contact._id) {
-          return contact;
-        } else {
-          return x;
-        }
+      this.contactsService.addContact(contact).subscribe({
+        next: (savedContact) => {
+          this.contacts = [...this.contacts, savedContact];
+        },
       });
-      console.log("Modificato contatto", contact);
+    } else {
+      this.contactsService.updateContact(contact).subscribe({
+        next: (savedContact) => {
+          this.contacts = this.contacts.map((x) => {
+            if (x._id === contact._id) {
+              return savedContact;
+            } else {
+              return x;
+            }
+          });
+        },
+      });
     }
-    this._mock.setContact(this.contacts);
     this.showList = true;
   }
 }
