@@ -7,6 +7,7 @@ import { ContactsService } from 'src/app/api/contacts.service';
 import { TransferService } from 'src/app/api/transfer.service';
 import { Card } from 'src/app/models/card';
 import { Transfer } from 'src/app/models/transfer';
+import { TransferForm } from 'src/app/models/transfer-form';
 import { ContactsComponent } from './contacts/contacts.component';
 
 @Component({
@@ -70,7 +71,17 @@ export class TransferComponent implements OnInit {
     });
   }
 
-  submitTransfer(transfer: Transfer) {
+
+
+  submitTransfer(data: TransferForm) {
+    console.log(data);
+    let transfer: Transfer = {
+      name:  data.name,
+      surname: data.surname,
+      iban: data.iban,
+      amount: data.amountAndCard.amount,
+      cardId: data.amountAndCard.cardId
+    }
     this.transferService.transfer(transfer).subscribe({
       next: (ok) => {
         if (ok) {

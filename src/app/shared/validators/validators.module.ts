@@ -5,8 +5,9 @@ import { CardValidatorDirective } from './card-id.validator';
 import { CodiceFiscaleValidator } from './codice-fiscale.validator';
 import { EqualsFieldsValidator } from './equal-fields.validator';
 import { IbanValidator } from './iban.validator';
+import { TransferValidatorDirective } from './transfer.validator';
 
-const validators = [EqualsFieldsValidator, AmountValidator, IbanValidator, CodiceFiscaleValidator, CardValidatorDirective];
+const validators = [EqualsFieldsValidator, AmountValidator, IbanValidator, CodiceFiscaleValidator, CardValidatorDirective, TransferValidatorDirective];
 
 @NgModule({
   declarations: [...validators],
