@@ -92,7 +92,8 @@
       <!-- Submit -->
       <div class="row">
         <div class="col">
-          <button class="width100" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">
+          <!-- uso !valid invece di invalid peche' ho validatori async-->
+          <button class="width100" mat-raised-button color="primary" type="submit" [disabled]="!f.valid">
             Trasferisci denaro
           </button>
         </div>
