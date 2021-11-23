@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login.component';
+import { RegisterComponent } from './register/register.component';
+import { SigninComponent } from './signin/signin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'signin' },
-  { path: 'signin', component: LoginComponent },
-  { path: 'signup', component: LoginComponent },
+  { path: 'signin', component: SigninComponent },
+  { path: 'signup', component: RegisterComponent },
 ];
 
 @NgModule({

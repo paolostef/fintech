@@ -1,27 +1,5 @@
 <div class="login-container">
   <mat-card class="card50">
-    <div *ngIf="signin" class="container">
-      <div class="row">
-        <div class="col"><app-signin></app-signin></div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <a routerLink="" (click)="signin = !signin">Crea un nuovo account</a>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="!signin" class="container">
-      <div class="row">
-        <div class="col"><app-register></app-register></div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <a routerLink="" (click)="signin = !signin"
-            >Hai già un account? Accedi</a
-          >
-        </div>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
   </mat-card>
 </div>
