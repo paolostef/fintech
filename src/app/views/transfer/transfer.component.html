@@ -42,13 +42,12 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>IBAN</mat-label>
-            <input type="text" [ngModel] name="iban" #ibanRef="ngModel" required matInput minlength="16"
-              maxlength="16" />
+            <input type="text" [ngModel] name="iban" #ibanRef="ngModel" required matInput appIbanValidator />
             <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.required">
               Campo <strong>obbligatorio</strong>
             </mat-error>
-            <mat-error *ngIf="ibanRef.dirty && (ibanRef.errors?.minlength || ibanRef.errors?.maxlength)">
-              Numero di lunghezza 16
+            <mat-error *ngIf="ibanRef.dirty && ibanRef.errors?.iban">
+              IBAN non valido
             </mat-error>
           </mat-form-field>
         </div>
@@ -59,9 +58,12 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>Importo</mat-label>
-            <input type="number" [ngModel] name="amount" #amountRef="ngModel" required matInput />
+            <input type="number" [ngModel] name="amount" #amountRef="ngModel" required matInput appAmountValidator />
             <mat-error *ngIf="amountRef.dirty && amountRef.errors?.required">
               Campo <strong>obbligatorio</strong>
+            </mat-error>
+            <mat-error *ngIf="amountRef.dirty && amountRef.errors?.amount">
+              Non è un numero >= 0
             </mat-error>
           </mat-form-field>
         </div>
@@ -72,13 +74,16 @@
         <div class="col">
           <mat-form-field appearance="fill" class="width100">
             <mat-label>Seleziona una carta</mat-label>
-            <mat-select [ngModel] name="cardId" #cardIdRef="ngModel" required>
+            <mat-select [ngModel] name="cardId" #cardIdRef="ngModel" required appCardValidator>
               <mat-option *ngFor="let card of cards" [value]="card._id">
                 {{ card.number }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="cardIdRef.dirty && cardIdRef.errors?.required">
               Campo <strong>obbligatorio</strong>
+            </mat-error>
+            <mat-error *ngIf="cardIdRef.dirty && cardIdRef.errors?.card">
+              Questa carta <strong>NON ESISTE</strong>!
             </mat-error>
           </mat-form-field>
         </div>

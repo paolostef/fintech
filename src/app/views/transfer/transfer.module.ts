@@ -7,15 +7,17 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { TransferComponent } from './transfer.component';
+import { ValidatorsModule } from 'src/app/shared/validators/validators.module';
+import { AmountValidator } from 'src/app/shared/validators/amount.validator';
 
 @NgModule({
   declarations: [
     ContactFormComponent,
     ContactListComponent,
     ContactsComponent,
-    TransferComponent,
+    TransferComponent
   ],
-  imports: [CommonModule, SharedModule, MaterialModule, FormsModule],
+  imports: [CommonModule, SharedModule, MaterialModule, FormsModule, ValidatorsModule],
   exports: [
     ContactFormComponent,
     ContactListComponent,

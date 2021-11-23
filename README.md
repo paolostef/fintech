@@ -13,6 +13,7 @@ git push -u origin main
 https://github.com/talent-factory-academy/fintech-backend 
 
 ###Lancio: \
+cd ..\fintech-backend
 npm run dev
 
 ##Comandi utili:

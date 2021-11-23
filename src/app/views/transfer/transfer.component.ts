@@ -29,7 +29,17 @@ export class TransferComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardsService.getCards().subscribe({
-      next: (cards) => (this.cards = cards),
+      next: (cards) => {
+        const wrongCard: Card = {
+          _id: 'NON__ESITO!!!!',
+          number: 'NON__ESITO!!!!',
+          ownerId: 'NON__ESITO!!!!',
+          owner: 'NON__ESITO!!!!',
+          type: 'visa',
+          amount: 0,
+        };
+        this.cards = [...cards, wrongCard];
+      },
       error: console.error,
     });
   }
