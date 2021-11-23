@@ -35,15 +35,17 @@ export class TransferComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((id) => {
       console.log('The dialog was closed', id);
-      const {name, surname, iban} = this._mock
-        .getContacts()
-        .filter((c) => c._id === id)[0];
-      this.form.setValue({
-        ...this.form.value,
-        name,
-        surname,
-        iban
-      });
+      if (id) {
+        const { name, surname, iban } = this._mock
+          .getContacts()
+          .filter((c) => c._id === id)[0];
+        this.form.setValue({
+          ...this.form.value,
+          name,
+          surname,
+          iban,
+        });
+      }
     });
   }
 

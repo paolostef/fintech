@@ -6,10 +6,11 @@ import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register/register.component';
 import { SigninComponent } from './signin/signin.component';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, SigninComponent],
-  imports: [CommonModule, SharedModule, MaterialModule, FormsModule],
+  imports: [CommonModule, SharedModule, MaterialModule, FormsModule, RouterModule],
   exports: [LoginComponent, RegisterComponent, SigninComponent],
 })
 export class LoginModule {}

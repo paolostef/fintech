@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
@@ -8,12 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class SidenavComponent implements OnInit {
   name = 'Paolo Stefani'; //TODO PRENDILO DALLA SESSIONE
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
   logout() {
     //TODO CHIAMA LOGOUT
     console.log('Logout...');
+    this.router.navigateByUrl("/login");
   }
 }
