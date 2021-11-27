@@ -1,5 +1,5 @@
-<ng-container *ngIf="showList">
-  <app-contact-list [contacts]="contacts" (select)="selectItem($event)" (edit)="editItem($event)"
+<ng-container *ngIf="(state$ | async)?.type === 'list'">
+  <app-contact-list [contacts]="contacts$.getValue()" (select)="selectItem($event)" (edit)="editItem($event)"
     (delete)="deleteItem($event)"></app-contact-list>
   <button class="width100" mat-raised-button color="secondary" type="button" (click)="addItem()">
     Nuovo Contatto
@@ -7,9 +7,9 @@
 </ng-container>
 
 
-<ng-container *ngIf="!showList">
-  <button class="width100 mb-2" mat-raised-button type="button" (click)="showList=true">
+<ng-container *ngIf="(state$ | async)?.type !== 'list'">
+  <button class="width100 mb-2" mat-raised-button type="button" (click)="backToList()">
     Indietro
   </button>
-  <app-contact-form [initialContact]="initialContact" (saveContact)="saveContact($event)"></app-contact-form>
+  <app-contact-form [initialContact]="selectedContact$ | async" (saveContact)="saveContact($event)"></app-contact-form>
 </ng-container>
