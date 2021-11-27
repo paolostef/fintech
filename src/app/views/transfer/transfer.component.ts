@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CardsService } from 'src/app/api/cards.service';
 import { ContactsService } from 'src/app/api/contacts.service';
 import { TransferService } from 'src/app/api/transfer.service';
@@ -18,7 +20,8 @@ import { ContactsComponent } from './contacts/contacts.component';
 export class TransferComponent implements OnInit {
   @ViewChild('f', { read: NgForm }) form!: NgForm;
 
-  cards: Card[] = [];
+  // cards: Card[] = [];
+  cards$ = new BehaviorSubject<Card[]>([]);
 
   constructor(
     private cardsService: CardsService,
@@ -29,20 +32,19 @@ export class TransferComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cardsService.getCards().subscribe({
-      next: (cards) => {
-        const wrongCard: Card = {
-          _id: 'NON__ESITO!!!!',
-          number: 'NON__ESITO!!!!',
-          ownerId: 'NON__ESITO!!!!',
-          owner: 'NON__ESITO!!!!',
-          type: 'visa',
-          amount: 0,
-        };
-        this.cards = [...cards, wrongCard];
-      },
-      error: console.error,
-    });
+    const wrongCard: Card = {
+      _id: 'NON__ESITO!!!!',
+      number: 'NON__ESITO!!!!',
+      ownerId: 'NON__ESITO!!!!',
+      owner: 'NON__ESITO!!!!',
+      type: 'visa',
+      amount: 0,
+    };
+
+    this.cardsService
+      .getCards()
+      .pipe(map((cards) => [...cards, wrongCard]))
+      .subscribe(this.cards$);
   }
 
   openContactList() {
@@ -71,17 +73,15 @@ export class TransferComponent implements OnInit {
     });
   }
 
-
-
   submitTransfer(data: TransferForm) {
     console.log(data);
     let transfer: Transfer = {
-      name:  data.name,
+      name: data.name,
       surname: data.surname,
       iban: data.iban,
       amount: data.amountAndCard.amount,
-      cardId: data.amountAndCard.cardId
-    }
+      cardId: data.amountAndCard.cardId,
+    };
     this.transferService.transfer(transfer).subscribe({
       next: (ok) => {
         if (ok) {

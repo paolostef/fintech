@@ -1,7 +1,7 @@
 <mat-drawer-container class="example-container">
   <mat-drawer-content>
     <app-card-list
-      [cards]="cards"
+      [cards]="cards$.getValue()"
       (addMovement)="addMovement()"
       (removeMovement)="removeMovement($event)"
       (viewMovement)="viewMovement($event)"

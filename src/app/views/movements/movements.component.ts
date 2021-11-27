@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import {
+  debounceTime,
+  distinct,
+  filter,
+  map, scan, switchMap,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { CardsService } from 'src/app/api/cards.service';
 import { Card } from 'src/app/models/card';
 import Movement from 'src/app/models/movement';
@@ -9,14 +18,80 @@ import Movement from 'src/app/models/movement';
   templateUrl: './movements.component.html',
   styleUrls: ['./movements.component.scss'],
 })
-export class MovementsComponent implements OnInit {
-  movements: Movement[] = [];
-  movementsCount = 0;
-  cards: Card[] = [];
-  selectedCard: Card | undefined = undefined;
-  offset: number = 0;
+export class MovementsComponent implements OnInit, OnDestroy {
   LIMIT: number = 5;
-  queryParamId: string = "";
+  queryParamId: string = '';
+
+  //(contiene la lista di Card)
+  cards$ = new BehaviorSubject<Card[]>([]);
+
+  // (contiene l’id della carta selezionata)
+  selectedCardId$ = new BehaviorSubject<string>('');
+
+  // (contiene la carta selezionata, DERIVATO)
+  selectedCard$ = combineLatest([this.cards$, this.selectedCardId$]).pipe(
+    map(([cards, id]) => cards.filter((c) => c._id === id)[0])
+  );
+
+  // offset
+  offset$ = new BehaviorSubject<number>(0);
+
+  resetOffset$ = this.selectedCardId$.subscribe((cardId) =>
+    this.offset$.next(0)
+  );
+
+  // (contiene la lista di movimenti visibili a schermo)
+  // Versione ok vista col tutor,
+  // però ha detto che il puro rxjs consiglia di non usare withLatestFrom con lo stesso input di combineLatest:
+  // sarebbe meglio una pipe interna sull'observable this.cardsService.getMovements()
+  movements_con_tutor$ = combineLatest([this.offset$, this.selectedCardId$]).pipe(
+    filter(([offset, cardId]) => !!cardId),
+    switchMap(([offset, cardId]) =>
+      this.cardsService.getMovements(cardId, offset, this.LIMIT)
+    ),
+    map((paged) => paged.data),
+    withLatestFrom(this.offset$),
+    scan((acc:Movement[], [movs, offset]) => offset === 0 ? movs : [...acc, ...movs], [])
+  );
+
+  // L'alternativa era fare una subscribe su movements$ e poi crearsi un BehaviorSubject su cui fare il next con l'array completo
+  listaMov_con_tutor$ = new BehaviorSubject<Movement[]>([]);
+  ngOnInit_con_tutor() {
+    this.movements$.subscribe({
+      next: (movs) => {
+        this.listaMov_con_tutor$.next([...this.listaMov_con_tutor$.getValue(), ...movs]);
+      },
+    });
+  }
+
+  // Terza versione (mia):
+  // - tap aggiorna total$ senza fare nuova chiamata
+  // - debounceTime evita una chiamata inutile quando cambio la carta
+  movements$ = combineLatest([this.offset$, this.selectedCardId$]).pipe(
+    filter(([offset, cardId]) => !!cardId),
+    debounceTime(200),
+    switchMap(([offset, cardId]) =>
+      this.cardsService.getMovements(cardId, offset, this.LIMIT)
+    ),
+    tap((paged) => this.total$.next(paged.total)),
+    map((paged) => paged.data),
+    withLatestFrom(this.offset$),
+    scan((acc:Movement[], [movs, offset]) => offset === 0 ? movs : [...acc, ...movs], [])
+  );
+
+
+  // (contiene il totale del movimenti presenti su server per la carta selezionata)
+  total$ = new BehaviorSubject<number>(0);
+
+  //(dice se dovrebbe essere visibile il tasto “Carica altro”, DERIVATO)
+  shouldLoadMore$ = combineLatest([this.movements$, this.total$]).pipe(
+    map(([movements, total]) => movements.length < total)
+  );
+
+  // totale
+  totalAmount$ = this.movements$.pipe(
+    map((movements) => this.getTotalAmount(movements))
+  );
 
   constructor(
     private cardsService: CardsService,
@@ -24,52 +99,28 @@ export class MovementsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cardsService.getCards().subscribe({
-      next: (cards) => {
-        this.cards = cards;
-        const cardId = this.route.snapshot.paramMap.get('id');
-        if (!!cardId && this.isValid(cardId)) {
-          this.queryParamId = cardId;
-          this.selectCard(cardId);
-        }
-      },
-      error: console.error,
-    });
-  }
+    const cardId = this.route.snapshot.paramMap.get('id');
+    this.queryParamId = cardId ? cardId : '';
 
-  isValid(cardId: string): boolean {
-    return this.cards.findIndex((c) => c._id === cardId) != -1;
+    this.cardsService.getCards().subscribe(this.cards$);
   }
 
   selectCard(cardId: string) {
-    this.selectedCard = this.cards.find((c) => c._id === cardId);
-    // Mostro i primi 5 movimenti di quella carta
-    this.movements = [];
-    this.movementsCount = 0;
-    this.offset = 0;
-    this.loadPage(cardId, this.offset);
+    console.log('selectCard ' + cardId);
+    this.selectedCardId$.next(cardId);
   }
 
   getNextPage() {
-    if (this.selectedCard) {
-      this.offset += this.LIMIT;
-      this.loadPage(this.selectedCard._id, this.offset);
-    }
+    this.offset$.next(this.offset$.getValue() + this.LIMIT);
   }
 
-  getTotalAmount(): number {
-    return this.movements
+  getTotalAmount(movements: Movement[]) {
+    return movements
       .map((m) => (m.type === 'in' ? m.amount : -1 * m.amount))
       .reduce((acc, curr) => acc + curr, 0);
   }
 
-  loadPage(cardId: string, offset: number) {
-    this.cardsService.getMovements(cardId, offset, this.LIMIT).subscribe({
-      next: (movs) => {
-        this.movements = [...this.movements, ...movs.data];
-        this.movementsCount = movs.total;
-      },
-      error: console.error,
-    });
+  ngOnDestroy() {
+    this.resetOffset$.unsubscribe();
   }
 }

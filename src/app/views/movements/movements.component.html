@@ -4,25 +4,26 @@
       <mat-form-field appearance="fill">
         <mat-label>Seleziona una carta</mat-label>
         <mat-select [value]="queryParamId" (selectionChange)="selectCard($event.value)">
-          <mat-option *ngFor="let card of cards" [value]="card._id" >
+          <mat-option *ngFor="let card of cards$ | async" [value]="card._id" >
             {{ card.number }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
   </div>
-  <div class="row" *ngIf="selectedCard">
+  <div class="row" *ngIf="selectedCard$ | async">
     <div class="col">
       <div class="amount-style">
-        Saldo: {{ getTotalAmount() | currency: "EUR":"symbol":".0-2" }}
+        Saldo: {{ totalAmount$ | async }}
       </div>
 
-      <div *ngFor="let mov of movements" class="movements-style">
+      <div *ngFor="let mov of movements$ | async" class="movements-style">
         <app-movement date="{{ mov.timestamp | date: 'dd/MM/yyyy' }}" [amount]="mov.amount" [type]="mov.type"
           [title]="mov.title" [description]="mov.description"></app-movement>
       </div>
 
-      <button *ngIf="this.movementsCount > this.movements.length" class="movements-style width100" mat-raised-button
+
+      <button *ngIf="shouldLoadMore$ | async" class="movements-style width100" mat-raised-button
         type="button" (click)="getNextPage()">
         Carica altro
       </button>
