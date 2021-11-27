@@ -41,5 +41,4 @@ Contiene il progetto funzionante fino ai validatori compresi.
 ##TODO
 https://angular-training.it/courses/angular-academy-1/lessons/fintech-passaggio-ai-behaviorsubject/
 
-MovementsComponent
-cards$ (contiene la lista di Card)
+ApointmentsComponent
