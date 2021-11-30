@@ -38,7 +38,22 @@ Contiene il progetto funzionante fino ai validatori compresi.
 [] Autenticazione
 [] Passaggio a NgRx
 
-##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-passaggio-ai-behaviorsubject/
 
-ApointmentsComponent
+## Branch "main"
+[X] Setup del progetto
+[X] Angular Material e primi componenti
+[X] Componenti – Cards
+[X] Componenti – Movements
+[X] Componenti – Transfer
+[X] Componenti – Appointments
+[X] Routing e Moduli
+[X] API – Aggiunta dei servizi
+[X] – Creazione dei Validatori
+[X] – Passaggio ai BehaviorSubject
+[] Componenti – Taxes (Reactive Forms)
+[] Autenticazione
+[] Passaggio a NgRx
+
+##TODO
+https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-taxes-reactive-forms/
+

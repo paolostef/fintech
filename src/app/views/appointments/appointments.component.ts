@@ -1,6 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { catchError, delay, filter, map, switchMap, tap } from 'rxjs/operators';
 import { AppointmentsService } from 'src/app/api/appointments.service';
 import { DayWithSlot } from 'src/app/models/day-with-slot';
 import { DayWithSlots } from 'src/app/models/day-with-slots';
@@ -11,47 +13,66 @@ import { Location } from 'src/app/models/location';
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.scss'],
 })
-export class AppointmentsComponent {
-  sites: Location[] = [];
-  slots: DayWithSlots[] = [];
-  selectedSite: Location | null = null;
+export class AppointmentsComponent implements OnInit, OnDestroy {
+  locations$ = new BehaviorSubject<Location[]>([]);
+
+  selectedLocationId$ = new BehaviorSubject<string | null>(null);
+
+  selectedLocation$ = combineLatest([
+    this.locations$,
+    this.selectedLocationId$,
+  ]).pipe(
+    map(([locations, id]) =>
+      id ? locations.filter((x) => x._id === id)[0] : null
+    )
+  );
+  // selectedCoords$ esiste perché non avviene la sottoscrizione automatica di selectedLocation$
+  selectedCoords$ = new BehaviorSubject<number[] | undefined>(undefined);
+  selectedCoordsSub: Subscription = this.selectedLocation$
+    .pipe(map((location) => location?.coords))
+    .subscribe(this.selectedCoords$);
+
+  daysWithSlots$ = this.selectedLocationId$.pipe(
+    filter((id) => id !== null),
+    switchMap((id) =>
+      this.appointmentsService.getSlots(id + '').pipe(
+        catchError((err) => {
+          console.error(err);
+          return [];
+        })
+      )
+    )
+  );
 
   @ViewChild(MatDrawer, { static: true }) matDrawer!: MatDrawer;
 
   constructor(
     private snackBar: MatSnackBar,
     private appointmentsService: AppointmentsService
-  ) {
-    this.appointmentsService.getLocations().subscribe({
-      next: (locations) => (this.sites = locations),
-      error: console.error
-    });
+  ) {}
+
+  ngOnInit() {
+    this.appointmentsService.getLocations().subscribe(this.locations$);
   }
 
   openSite(location: Location) {
-    if (this.selectedSite != location) {
-      this.selectedSite = null;
+    if (this.selectedLocationId$.getValue() !== location._id) {
+      this.selectedLocationId$.next(null);
       if (this.matDrawer.opened) {
         this.matDrawer.close();
       }
-      this.appointmentsService.getSlots(location._id).subscribe({
-        next: (result) => {
-          this.slots = result;
-          // Un po' di timeout per vedere l'effetto chiudi/apri
-          setTimeout(() => {
-            this.selectedSite = location;
-            this.matDrawer.open();
-          }, 200);
-        },
-        error: console.log,
-      });
+      // Un po' di timeout per vedere l'effetto chiudi/apri
+      setTimeout(() => {
+        this.selectedLocationId$.next(location._id);
+        this.matDrawer.open();
+      }, 200);
     }
   }
 
   addAppointment(slot: DayWithSlot) {
     console.log(slot);
     this.matDrawer.close();
-    this.selectedSite = null;
+    this.selectedLocationId$.next(null);
     this.appointmentsService.schedule(slot).subscribe({
       next: (esit) => {
         if (esit) {
@@ -60,7 +81,11 @@ export class AppointmentsComponent {
           this.snackBar.open("Impossibile confermare l'appuntamento", 'KO');
         }
       },
-      error: console.error
+      error: console.error,
     });
+  }
+
+  ngOnDestroy() {
+    this.selectedCoordsSub.unsubscribe();
   }
 }

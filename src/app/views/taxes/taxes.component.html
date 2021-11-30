@@ -1,1 +1,153 @@
-<p>taxes works!</p>
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-card formGroupName="contribuente">
+      <mat-card-title>Contribuente</mat-card-title>
+
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Codice fiscale</mat-label>
+            <input type="text" placeholder="Codice fiscale" formControlName="codiceFiscale" matInput />
+            <mat-hint>Esempio: 'AAAAAA00A00A000A'</mat-hint>
+            <mat-error *ngIf="form.get('codiceFiscale')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+            <mat-error *ngIf="form.get('codiceFiscale')?.hasError('codiceFiscale')">
+              Non è un codice fiscale valido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Cognome</mat-label>
+            <input type="text" placeholder="Cognome" formControlName="cognome" matInput />
+            <mat-error *ngIf="form.get('cognome')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Nome</mat-label>
+            <input type="text" placeholder="Nome" formControlName="nome" matInput />
+            <mat-error *ngIf="form.get('nome')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Data di nascita</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataDiNascita">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('dataDiNascita')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Sesso</mat-label>
+            <select matNativeControl formControlName="sesso">
+              <option value="M">Maschio</option>
+              <option value="F">Femmina</option>
+            </select>
+            <mat-error *ngIf="form.get('sesso')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Provincia di nascita</mat-label>
+            <input type="text" placeholder="Prov." formControlName="provinciaDiNascita" matInput maxlength="2" />
+            <mat-error *ngIf="form.get('provinciaDiNascita')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="fill" class="width100">
+            <mat-label>Comune di nascita</mat-label>
+            <input type="text" placeholder="Comune" formControlName="comuneDiNascita" matInput />
+            <mat-error *ngIf="form.get('comuneDiNascita')?.hasError('required')">
+              Campo <strong>obbligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card>
+
+
+    <mat-card formArrayName="erario">
+      <mat-card-title>Erario</mat-card-title>
+
+      <div class="row" *ngFor="let erarioGroup of erario.controls; let i = index">
+        <ng-container [formGroupName]="i">
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Codice tributo</mat-label>
+              <input type="text" formControlName="codiceTributo" matInput />
+              <mat-error *ngIf="erarioGroup.get('codiceTributo')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Anno</mat-label>
+              <input type="number" formControlName="anno" matInput/>
+              <mat-error *ngIf="erarioGroup.get('anno')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+              <mat-error *ngIf="erarioGroup.get('anno')?.hasError('min') || erarioGroup.get('anno')?.hasError('max')">
+                Anni abilitati: {{minYear}} - {{maxYear}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Debito</mat-label>
+              <input type="number" formControlName="debito" matInput />
+              <mat-error *ngIf="erarioGroup.get('debito')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Credito</mat-label>
+              <input type="number" formControlName="credito" matInput />
+              <mat-error *ngIf="erarioGroup.get('credito')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <button type="button" mat-mini-fab color="warn" aria-label="Rimuovi" (click)="removeErario(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+
+      <button type="button" mat-mini-fab color="primary" aria-label="Aggiungi" (click)="addErario()">
+        <mat-icon>add</mat-icon>
+      </button>
+
+    </mat-card>
+
+    <div class="row">
+      <div class="col">
+        <!-- <button mat-raised-button color="primary" [disabled]="!form.valid">Invia</button> -->
+        <button mat-raised-button color="primary">Invia</button>
+      </div>
+    </div>
+  </form>
+</div>

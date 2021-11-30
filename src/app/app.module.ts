@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher
 } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

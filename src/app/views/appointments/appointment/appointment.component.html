@@ -3,7 +3,7 @@
 
     <div class="row">
       <div class="col">
-        <app-leaflet-map class="static-map" [coords]="coords"></app-leaflet-map>
+        <app-leaflet-map *ngIf="coords" class="static-map" [coords]="coords"></app-leaflet-map>
       </div>
     </div>
 

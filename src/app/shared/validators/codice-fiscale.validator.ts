@@ -11,7 +11,11 @@ export function codiceFiscaleValidator(
   control: AbstractControl
 ): ValidationErrors | null {
   let value = control.value + '';
-  if (!value || value.length != 16) {
+  if (!value) {
+    // usa valdiatrore obbligatorietà..
+    return null;
+  }
+  if (value.length != 16) {
     return { codiceFiscale: true };
   }
 

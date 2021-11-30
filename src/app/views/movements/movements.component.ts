@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import {
   debounceTime,
-  distinct,
   filter,
-  map, scan, switchMap,
+  map,
+  scan,
+  switchMap,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 import { CardsService } from 'src/app/api/cards.service';
 import { Card } from 'src/app/models/card';
@@ -20,7 +21,7 @@ import Movement from 'src/app/models/movement';
 })
 export class MovementsComponent implements OnInit, OnDestroy {
   LIMIT: number = 5;
-  queryParamId: string = '';
+  // queryParamId: string = '';
 
   //(contiene la lista di Card)
   cards$ = new BehaviorSubject<Card[]>([]);
@@ -44,14 +45,21 @@ export class MovementsComponent implements OnInit, OnDestroy {
   // Versione ok vista col tutor,
   // però ha detto che il puro rxjs consiglia di non usare withLatestFrom con lo stesso input di combineLatest:
   // sarebbe meglio una pipe interna sull'observable this.cardsService.getMovements()
-  movements_con_tutor$ = combineLatest([this.offset$, this.selectedCardId$]).pipe(
+  movements_con_tutor$ = combineLatest([
+    this.offset$,
+    this.selectedCardId$,
+  ]).pipe(
     filter(([offset, cardId]) => !!cardId),
     switchMap(([offset, cardId]) =>
       this.cardsService.getMovements(cardId, offset, this.LIMIT)
     ),
     map((paged) => paged.data),
     withLatestFrom(this.offset$),
-    scan((acc:Movement[], [movs, offset]) => offset === 0 ? movs : [...acc, ...movs], [])
+    scan(
+      (acc: Movement[], [movs, offset]) =>
+        offset === 0 ? movs : [...acc, ...movs],
+      []
+    )
   );
 
   // L'alternativa era fare una subscribe su movements$ e poi crearsi un BehaviorSubject su cui fare il next con l'array completo
@@ -59,7 +67,10 @@ export class MovementsComponent implements OnInit, OnDestroy {
   ngOnInit_con_tutor() {
     this.movements$.subscribe({
       next: (movs) => {
-        this.listaMov_con_tutor$.next([...this.listaMov_con_tutor$.getValue(), ...movs]);
+        this.listaMov_con_tutor$.next([
+          ...this.listaMov_con_tutor$.getValue(),
+          ...movs,
+        ]);
       },
     });
   }
@@ -76,9 +87,12 @@ export class MovementsComponent implements OnInit, OnDestroy {
     tap((paged) => this.total$.next(paged.total)),
     map((paged) => paged.data),
     withLatestFrom(this.offset$),
-    scan((acc:Movement[], [movs, offset]) => offset === 0 ? movs : [...acc, ...movs], [])
+    scan(
+      (acc: Movement[], [movs, offset]) =>
+        offset === 0 ? movs : [...acc, ...movs],
+      []
+    )
   );
-
 
   // (contiene il totale del movimenti presenti su server per la carta selezionata)
   total$ = new BehaviorSubject<number>(0);
@@ -93,16 +107,26 @@ export class MovementsComponent implements OnInit, OnDestroy {
     map((movements) => this.getTotalAmount(movements))
   );
 
+  subscriptions: Subscription[] = [];
+
   constructor(
     private cardsService: CardsService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    const cardId = this.route.snapshot.paramMap.get('id');
-    this.queryParamId = cardId ? cardId : '';
+    const sub1 = this.cardsService.getCards().subscribe(this.cards$);
+    this.subscriptions.push(sub1);
 
-    this.cardsService.getCards().subscribe(this.cards$);
+    const sub2 = this.route.params
+      .pipe(
+        filter((value) => !!value.id),
+        map((value) => value.id)
+      )
+      .subscribe(this.selectedCardId$);
+    this.subscriptions.push(sub2);
+
+    this.subscriptions.push(this.resetOffset$);
   }
 
   selectCard(cardId: string) {
@@ -121,6 +145,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.resetOffset$.unsubscribe();
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

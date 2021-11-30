@@ -11,7 +11,7 @@ import { OkCancelDialogComponent } from 'src/app/shared/components/ok-cancel-dia
   styleUrls: ['./appointment.component.scss'],
 })
 export class AppointmentComponent {
-  @Input() coords!: number[];
+  @Input() coords: number[] | undefined = undefined;
   @Input() slots!: DayWithSlots[];
   @Output() select = new EventEmitter<DayWithSlot>();
 

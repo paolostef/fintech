@@ -1,14 +1,14 @@
 <mat-drawer-container class="example-container">
   <mat-drawer-content>
     <app-location-list
-      [sites]="sites"
+      [sites]="locations$.getValue()"
       (select)="openSite($event)"
     ></app-location-list>
   </mat-drawer-content>
   <mat-drawer mode="side" opened="false" position='end'>
-    <app-appointment *ngIf="selectedSite"
-      [coords]="selectedSite.coords"
-      [slots]="slots"
+    <app-appointment *ngIf="selectedLocationId$.getValue() != null"
+      [coords]="(selectedCoords$ | async) || []"
+      [slots]="(daysWithSlots$ | async) || []"
       (select)="addAppointment($event)"
     ></app-appointment>
   </mat-drawer>

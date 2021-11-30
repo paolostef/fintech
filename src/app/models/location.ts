@@ -4,5 +4,5 @@ export interface Location {
   address: string;
   phone?: string;
   email?: string;
-  coords: [number, number]
+  coords?: number[]
 }
