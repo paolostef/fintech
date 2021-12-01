@@ -185,22 +185,28 @@
           <div class="col">
             <mat-form-field appearance="fill">
               <mat-label>Da</mat-label>
-              <input matInput [matDatepicker]="pickerDa" formControlName="da">
+              <input matInput [matDatepicker]="pickerDa" formControlName="da" [errorStateMatcher]="inpsMatcher">
               <mat-datepicker-toggle matSuffix [for]="pickerDa"></mat-datepicker-toggle>
               <mat-datepicker #pickerDa></mat-datepicker>
               <mat-error *ngIf="inpsGroup.get('da')?.hasError('required')">
                 Campo <strong>obbligatorio</strong>
+              </mat-error>
+              <mat-error *ngIf="inpsGroup?.hasError('inps')">
+                {{inpsGroup.getError('inps')}}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col">
             <mat-form-field appearance="fill">
               <mat-label>A</mat-label>
-              <input matInput [matDatepicker]="pickerA" formControlName="a">
+              <input matInput [matDatepicker]="pickerA" formControlName="a" [errorStateMatcher]="inpsMatcher">
               <mat-datepicker-toggle matSuffix [for]="pickerA"></mat-datepicker-toggle>
               <mat-datepicker #pickerA></mat-datepicker>
               <mat-error *ngIf="inpsGroup.get('a')?.hasError('required')">
                 Campo <strong>obbligatorio</strong>
+              </mat-error>
+              <mat-error *ngIf="inpsGroup?.hasError('inps')">
+                {{inpsGroup.getError('inps')}}
               </mat-error>
             </mat-form-field>
           </div>

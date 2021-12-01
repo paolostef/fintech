@@ -6,6 +6,7 @@ import { map, startWith, tap } from 'rxjs/operators';
 import { TaxesService } from 'src/app/api/taxes.service';
 import { codiceFiscaleValidator } from 'src/app/shared/validators/codice-fiscale.validator';
 import { inpsValidator } from 'src/app/shared/validators/inps.validator';
+import { INPSErrorStateMatcher } from './utility/inps-error-state-mather.utils';
 
 @Component({
   selector: 'app-taxes',
@@ -48,6 +49,8 @@ Per la sezione inps avrai i campi codiceSede, causaleContributo, codiceInps, da,
   totaliErario$: Observable<Totals>;
   totaliInps$: Observable<Totals>;
   totale$: Observable<number>;
+
+  inpsMatcher = new INPSErrorStateMatcher();
 
   constructor(
     private fb: FormBuilder,

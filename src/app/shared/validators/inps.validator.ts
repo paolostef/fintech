@@ -20,12 +20,12 @@ export function inpsValidator(
       return null;
     }
     if (!(field1 instanceof Date) || !(field2 instanceof Date)) {
-      return { inps: true };
+      return { inps: 'Non hai inserito una data valida' };
     }
     const date1 = (field1 as Date).getTime();
     const date2 = (field2 as Date).getTime();
     if (date1 > date2) {
-      return { inps: true };
+      return { inps: 'La data di inizio deve essere precedente alla data di fine' };
     }
     return null;
   };
