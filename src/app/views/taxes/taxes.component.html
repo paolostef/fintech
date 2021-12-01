@@ -43,9 +43,9 @@
         <div class="col">
           <mat-form-field appearance="fill">
             <mat-label>Data di nascita</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="dataDiNascita">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <input matInput [matDatepicker]="pickerBirth" formControlName="dataDiNascita">
+            <mat-datepicker-toggle matSuffix [for]="pickerBirth"></mat-datepicker-toggle>
+            <mat-datepicker #pickerBirth></mat-datepicker>
             <mat-error *ngIf="form.get('dataDiNascita')?.hasError('required')">
               Campo <strong>obbligatorio</strong>
             </mat-error>
@@ -102,7 +102,7 @@
           <div class="col">
             <mat-form-field appearance="fill" class="width100">
               <mat-label>Anno</mat-label>
-              <input type="number" formControlName="anno" matInput/>
+              <input type="number" formControlName="anno" matInput />
               <mat-error *ngIf="erarioGroup.get('anno')?.hasError('required')">
                 Campo <strong>obbligatorio</strong>
               </mat-error>
@@ -137,16 +137,117 @@
         </ng-container>
       </div>
 
-      <button type="button" mat-mini-fab color="primary" aria-label="Aggiungi" (click)="addErario()">
-        <mat-icon>add</mat-icon>
-      </button>
+      <div class="row">
+        <div class="col"><button type="button" mat-mini-fab color="primary" aria-label="Aggiungi" (click)="addErario()">
+            <mat-icon>add</mat-icon>
+          </button></div>
+        <div class="col"><strong>Totale a debito {{(totaliErario$ | async)?.debito}}</strong></div>
+        <div class="col"><strong>Totale a credito {{(totaliErario$ | async)?.credito}}</strong></div>
+      </div>
+
+
 
     </mat-card>
 
+
+
+    <mat-card formArrayName="inps">
+      <mat-card-title>INPS</mat-card-title>
+      <div class="row" *ngFor="let inpsGroup of inps.controls; let i = index">
+        <ng-container [formGroupName]="i">
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Codice sede</mat-label>
+              <input type="text" formControlName="codiceSede" matInput />
+              <mat-error *ngIf="inpsGroup.get('codiceSede')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Causale contributo</mat-label>
+              <input type="text" formControlName="causaleContributo" matInput />
+              <mat-error *ngIf="inpsGroup.get('causaleContributo')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Causale INPS</mat-label>
+              <input type="text" formControlName="codiceInps" matInput />
+              <mat-error *ngIf="inpsGroup.get('codiceInps')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Da</mat-label>
+              <input matInput [matDatepicker]="pickerDa" formControlName="da">
+              <mat-datepicker-toggle matSuffix [for]="pickerDa"></mat-datepicker-toggle>
+              <mat-datepicker #pickerDa></mat-datepicker>
+              <mat-error *ngIf="inpsGroup.get('da')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>A</mat-label>
+              <input matInput [matDatepicker]="pickerA" formControlName="a">
+              <mat-datepicker-toggle matSuffix [for]="pickerA"></mat-datepicker-toggle>
+              <mat-datepicker #pickerA></mat-datepicker>
+              <mat-error *ngIf="inpsGroup.get('a')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Debito</mat-label>
+              <input type="number" formControlName="debito" matInput />
+              <mat-error *ngIf="inpsGroup.get('debito')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill" class="width100">
+              <mat-label>Credito</mat-label>
+              <input type="number" formControlName="credito" matInput />
+              <mat-error *ngIf="inpsGroup.get('credito')?.hasError('required')">
+                Campo <strong>obbligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <button type="button" mat-mini-fab color="warn" aria-label="Rimuovi" (click)="removeInps(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="row">
+        <div class="col"><button type="button" mat-mini-fab color="primary" aria-label="Aggiungi" (click)="addInps()">
+            <mat-icon>add</mat-icon>
+          </button></div>
+        <div class="col"><strong>Totale a debito {{(totaliInps$ | async)?.debito}}</strong></div>
+        <div class="col"><strong>Totale a credito {{(totaliInps$ | async)?.credito}}</strong></div>
+      </div>
+
+    </mat-card>
+
+    <div class="row saldo-totale">
+      <div class="col"><strong>Saldo totale: {{totale$ | async}}</strong></div>
+    </div>
+
     <div class="row">
       <div class="col">
-        <!-- <button mat-raised-button color="primary" [disabled]="!form.valid">Invia</button> -->
-        <button mat-raised-button color="primary">Invia</button>
+        <button mat-raised-button color="primary" [disabled]="!form.valid">Invia</button>
       </div>
     </div>
   </form>
