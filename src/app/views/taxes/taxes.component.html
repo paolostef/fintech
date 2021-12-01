@@ -191,9 +191,6 @@
               <mat-error *ngIf="inpsGroup.get('da')?.hasError('required')">
                 Campo <strong>obbligatorio</strong>
               </mat-error>
-              <mat-error *ngIf="inpsGroup?.hasError('inps')">
-                {{inpsGroup.getError('inps')}}
-              </mat-error>
             </mat-form-field>
           </div>
           <div class="col">

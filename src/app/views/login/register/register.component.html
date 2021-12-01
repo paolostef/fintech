@@ -5,17 +5,11 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Email</mat-label>
-          <input
-            type="email"
-            [ngModel]
-            name="email"
-            #emailRef="ngModel"
-            placeholder="Ex. pat@example.com"
-            required
-            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-            matInput
-          />
-          <span matPrefix> <mat-icon>account_circle</mat-icon> </span>
+          <input type="email" [ngModel] name="email" #emailRef="ngModel" placeholder="Ex. pat@example.com" required
+            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" matInput />
+          <span matPrefix>
+            <mat-icon>account_circle</mat-icon>
+          </span>
           <mat-hint>Inserisci la tua email</mat-hint>
           <mat-error *ngIf="emailRef.dirty && emailRef.errors?.pattern">
             Indirizzo email non valido
@@ -32,16 +26,10 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Nome</mat-label>
-          <input
-            type="text"
-            [ngModel]
-            name="name"
-            #nameRef="ngModel"
-            required
-            matInput
-            minlength="3"
-          />
-          <span matPrefix> <mat-icon>person</mat-icon> </span>
+          <input type="text" [ngModel] name="name" #nameRef="ngModel" required matInput minlength="3" />
+          <span matPrefix>
+            <mat-icon>person</mat-icon>
+          </span>
           <mat-hint>Inserisci il tuo nome</mat-hint>
           <mat-error *ngIf="nameRef.dirty && nameRef.errors?.minlength">
             Nome troppo corto
@@ -58,16 +46,10 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Cognome</mat-label>
-          <input
-            type="text"
-            [ngModel]
-            name="surname"
-            #surnameRef="ngModel"
-            required
-            matInput
-            minlength="3"
-          />
-          <span matPrefix> <mat-icon>person</mat-icon> </span>
+          <input type="text" [ngModel] name="surname" #surnameRef="ngModel" required matInput minlength="3" />
+          <span matPrefix>
+            <mat-icon>person</mat-icon>
+          </span>
           <mat-hint>Inserisci il tuo cognome</mat-hint>
           <mat-error *ngIf="surnameRef.dirty && surnameRef.errors?.minlength">
             Cognome troppo corto
@@ -84,22 +66,12 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Password</mat-label>
-          <input
-            [type]="hide ? 'password' : 'text'"
-            [ngModel]
-            name="password"
-            #passwordRef="ngModel"
-            required
-            minlength="3"
-            matInput
-          />
-          <span matPrefix> <mat-icon>lock</mat-icon> </span>
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="hide = !hide"
-          >
+          <input [type]="hide ? 'password' : 'text'" [ngModel] name="password" #passwordRef="ngModel" required
+            minlength="3" matInput [errorStateMatcher]="passwordEqualsMatcher" />
+          <span matPrefix>
+            <mat-icon>lock</mat-icon>
+          </span>
+          <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
           <mat-hint>Inserisci la tua password</mat-hint>
@@ -118,28 +90,20 @@
       <div class="col">
         <mat-form-field appearance="fill" class="width100">
           <mat-label>Ripeti la password</mat-label>
-          <input
-            [type]="hide2 ? 'password' : 'text'"
-            [ngModel]
-            name="password2"
-            #password2Ref="ngModel"
-            required
-            matInput
-          />
-          <span matPrefix> <mat-icon>lock</mat-icon> </span>
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="hide2 = !hide2"
-          >
+          <input [type]="hide2 ? 'password' : 'text'" [ngModel] name="password2" #password2Ref="ngModel" required
+            matInput [errorStateMatcher]="passwordEqualsMatcher" />
+          <span matPrefix>
+            <mat-icon>lock</mat-icon>
+          </span>
+          <button type="button" mat-icon-button matSuffix (click)="hide2 = !hide2">
             <mat-icon>{{ hide2 ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
           <mat-hint>Inserisci la tua password</mat-hint>
-          <mat-error
-            *ngIf="password2Ref.dirty && password2Ref.errors?.required"
-          >
+          <mat-error *ngIf="password2Ref.dirty && password2Ref.errors?.required">
             Password <strong>obbligatoria</strong>
+          </mat-error>
+          <mat-error *ngIf="f.dirty && f.errors?.equalsFields">
+            Le due password devono coincidere
           </mat-error>
         </mat-form-field>
       </div>
@@ -148,13 +112,7 @@
     <!-- Registrati -->
     <div class="row">
       <div class="col">
-        <button
-          class="width100"
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="f.invalid"
-        >
+        <button class="width100" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">
           Registrati
         </button>
       </div>
@@ -164,5 +122,5 @@
 
 
 <div class="login-goto">
-  <a mat-button routerLink="/login/signin" >Hai già un account? Accedi</a>
+  <a mat-button routerLink="/login/signin">Hai già un account? Accedi</a>
 </div>

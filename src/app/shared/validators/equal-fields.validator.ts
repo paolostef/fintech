@@ -15,7 +15,7 @@ export function equalsFieldsValidator(
   return (control: AbstractControl): ValidationErrors | null => {
     const field1 = control.get(fieldName1)?.value;
     const field2 = control.get(fieldName2)?.value;
-    if (field1 !== field2) {
+    if (field1 && field2 && field1 !== field2) {
       return { equalsFields: true };
     }
     return null;
