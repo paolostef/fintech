@@ -17,7 +17,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   register(data: any) {
-    // TODO MANCA VALIDAZIONE PASSWORD 1 = 2
     console.log('register', data);
   }
 }
