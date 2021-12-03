@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { map, tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { UserStore } from 'src/app/core/services/user.store';
 
 @Component({
   selector: 'app-sidenav',
@@ -7,15 +10,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit {
-  name = 'Paolo Stefani'; //TODO PRENDILO DALLA SESSIONE
+  user$ = this.userStore.user$.pipe(tap(console.log));
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userStore: UserStore
+  ) {}
 
   ngOnInit(): void {}
 
   logout() {
-    //TODO CHIAMA LOGOUT
     console.log('Logout...');
-    this.router.navigateByUrl("/login");
+    this.authService.logout();
   }
 }

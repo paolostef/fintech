@@ -36,9 +36,9 @@
     </mat-list-item>
 
 
-    <mat-list-item appearance="fill">
+    <mat-list-item appearance="fill" (click)="logout()">
       <mat-icon matListIcon>person</mat-icon>
-      <div matLine>{{name}}</div>
-      <div matLine (click)="logout()">Logout</div>
+      <div matLine>{{(user$ | async)?.displayName}}</div>
+      <div matLine >Logout</div>
     </mat-list-item>
 </mat-list>

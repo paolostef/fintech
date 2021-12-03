@@ -15,6 +15,9 @@ https://github.com/talent-factory-academy/fintech-backend
 ### Lancio: \
 cd ..\fintech-backend
 npm run dev
+### Lancio con autenticazione accesa: \
+cd ..\fintech-backend
+npm run dev:auth
 
 ##Comandi utili:
 
@@ -50,10 +53,10 @@ Contiene il progetto funzionante fino ai validatori compresi.
 [X] API – Aggiunta dei servizi
 [X] – Creazione dei Validatori
 [X] – Passaggio ai BehaviorSubject
-[] Componenti – Taxes (Reactive Forms)
+[X] Componenti – Taxes (Reactive Forms)
 [] Autenticazione
 [] Passaggio a NgRx
 
 ##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-componenti-taxes-reactive-forms/
-
+https://angular-training.it/courses/angular-academy-1/lessons/fintech-autenticazione/
+AuthGuard
