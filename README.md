@@ -41,6 +41,22 @@ Contiene il progetto funzionante fino ai validatori compresi.
 [] Autenticazione
 [] Passaggio a NgRx
 
+## Branch "auth"
+Contiene il progetto funzionante fino all'autenticazione compresa.
+[X] Setup del progetto
+[X] Angular Material e primi componenti
+[X] Componenti – Cards
+[X] Componenti – Movements
+[X] Componenti – Transfer
+[X] Componenti – Appointments
+[X] Routing e Moduli
+[X] API – Aggiunta dei servizi
+[X] – Creazione dei Validatori
+[X] – Passaggio ai BehaviorSubject
+[X] Componenti – Taxes (Reactive Forms)
+[X] Autenticazione
+[] Passaggio a NgRx
+
 
 ## Branch "main"
 [X] Setup del progetto
@@ -54,9 +70,8 @@ Contiene il progetto funzionante fino ai validatori compresi.
 [X] – Creazione dei Validatori
 [X] – Passaggio ai BehaviorSubject
 [X] Componenti – Taxes (Reactive Forms)
-[] Autenticazione
+[X] Autenticazione
 [] Passaggio a NgRx
 
 ##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-autenticazione/
-AuthGuard
+https://angular-training.it/courses/angular-academy-1/lessons/fintech-passaggio-a-ngrx/
