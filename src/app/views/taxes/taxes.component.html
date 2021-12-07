@@ -54,10 +54,10 @@
         <div class="col">
           <mat-form-field appearance="fill">
             <mat-label>Sesso</mat-label>
-            <select matNativeControl formControlName="sesso">
-              <option value="M">Maschio</option>
-              <option value="F">Femmina</option>
-            </select>
+            <mat-select formControlName="sesso">
+              <mat-option value="M">Maschio</mat-option>
+              <mat-option value="F">Femmina</mat-option>
+            </mat-select>
             <mat-error *ngIf="form.get('sesso')?.hasError('required')">
               Campo <strong>obbligatorio</strong>
             </mat-error>
