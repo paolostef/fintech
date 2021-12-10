@@ -1,10 +1,16 @@
-import { createFeature, createFeatureSelector, createSelector } from "@ngrx/store";
-import { Card } from "src/app/models/card";
-import { CardsState } from "./cards.reducer";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { CardsState } from './cards.reducer';
 
+export const selectFeature = createFeatureSelector<{
+  cardsState: CardsState;
+}>('cards');
 
+export const selectFeatureState = createSelector(
+  selectFeature,
+  (state) => state.cardsState
+);
 
-export const selectFeature = createFeatureSelector<CardsState>("CARDS");
-
-
-export const selectCards = (state: CardsState) => state.cards;
+export const selectCards = createSelector(
+  selectFeatureState,
+  (state) => state.cards
+);

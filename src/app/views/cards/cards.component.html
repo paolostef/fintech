@@ -1,11 +1,13 @@
 <mat-drawer-container class="example-container">
   <mat-drawer-content>
+    <ng-container *ngIf="(cards$ | async) as cardList">
     <app-card-list
-      [cards]="cards$.getValue()"
+      [cards]="cardList"
       (addMovement)="addMovement()"
       (removeMovement)="removeMovement($event)"
       (viewMovement)="viewMovement($event)"
     ></app-card-list>
+  </ng-container>
   </mat-drawer-content>
   <mat-drawer mode="side" opened="false" position='end'>
     <app-card-form
