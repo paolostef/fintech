@@ -71,7 +71,5 @@ Contiene il progetto funzionante fino all'autenticazione compresa. \
 [X] – Passaggio ai BehaviorSubject \
 [X] Componenti – Taxes (Reactive Forms) \
 [X] Autenticazione \
-[] Passaggio a NgRx
+[X] Passaggio a NgRx
 
-##TODO
-https://angular-training.it/courses/angular-academy-1/lessons/fintech-passaggio-a-ngrx/
